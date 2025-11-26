@@ -11,10 +11,6 @@ app_api = Flask(__name__)
 
 # Configuración inicial del termostato
 termostato = Configurador.termostato
-termostato.estado_climatizador = "apagado"
-termostato.carga_bateria = 5
-termostato.temperatura_deseada = 25
-termostato.temperatura_ambiente = 12
 
 
 @app_api.errorhandler(404)
