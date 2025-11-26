@@ -66,7 +66,7 @@ def obtener_temperatura_deseada():
 @app_api.route("/termostato/bateria/", methods=["GET", "POST"])
 def obtener_carga_bateria():
     """
-    GET: Obtiene el nivel de carga de la batería.
+    GET: Obtiene la carga de la batería.
     POST: Establece la carga de batería. Requiere JSON: {"bateria": valor}
     """
     if request.method == 'POST':
@@ -82,7 +82,7 @@ def obtener_carga_bateria():
 @app_api.route("/termostato/estado_climatizador/", methods=["GET", "POST"])
 def obtener_estado_climatizador():
     """
-    GET: Obtiene el estado del climatizador (encendido/apagado).
+    GET: Obtiene el estado del climatizador (encendido/enfriando/calentando).
     POST: Establece el estado del climatizador. Requiere JSON: {"climatizador": valor}
     """
     if request.method == 'POST':
@@ -95,17 +95,17 @@ def obtener_estado_climatizador():
         return jsonify({'estado_climatizador': termostato.estado_climatizador})
 
 
-@app_api.route("/termostato/nivel_de_carga/", methods=["GET", "POST"])
-def obtener_nivel_de_carga():
+@app_api.route("/termostato/indicador/", methods=["GET", "POST"])
+def obtener_indicador():
     """
-    GET: Obtiene el nivel de carga del dispositivo.
-    POST: Establece el nivel de carga. Requiere JSON: {"nivel_de_carga": valor}
+    GET: Obtiene el indicador de carga del dispositivo.
+    POST: Establece el indicador de carga. Requiere JSON: {"indicador": valor}
     """
     if request.method == 'POST':
         datos = request.get_json()
-        if not datos or "nivel_de_carga" not in datos:
-            return jsonify({'error': 'Se requiere campo "nivel_de_carga"'}), 400
-        termostato.nivel_de_carga = datos["nivel_de_carga"]
+        if not datos or "indicador" not in datos:
+            return jsonify({'error': 'Se requiere campo "indicador"'}), 400
+        termostato.indicador = datos["indicador"]
         return jsonify({'mensaje': 'dato registrado'}), 201
     else:
-        return jsonify({'nivel_de_carga': termostato.nivel_de_carga})
+        return jsonify({'indicador': termostato.indicador})

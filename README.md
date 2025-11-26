@@ -10,8 +10,8 @@ La API gestiona:
 - Temperatura ambiente actual
 - Temperatura deseada configurada
 - Estado del climatizador (encendido/apagado)
-- Nivel de carga de la batería
-- Nivel de carga del dispositivo
+- La carga de la batería
+- Indicador de carga del dispositivo
 
 ## Arquitectura
 
@@ -135,10 +135,10 @@ OK!
 
 ### Batería
 
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| GET | `/termostato/bateria/` | Obtiene nivel de batería |
-| POST | `/termostato/bateria/` | Establece nivel de batería |
+| Método | Endpoint | Descripción                |
+|--------|----------|----------------------------|
+| GET | `/termostato/bateria/` | Obtiene carga de batería   |
+| POST | `/termostato/bateria/` | Establece carga de batería |
 
 **GET Response:**
 ```json
@@ -167,21 +167,21 @@ OK!
 {"climatizador": "calentando"}
 ```
 
-### Nivel de Carga
+### Indicador de Carga
 
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| GET | `/termostato/nivel_de_carga/` | Obtiene nivel de carga del dispositivo |
-| POST | `/termostato/nivel_de_carga/` | Establece nivel de carga del dispositivo |
+| Método | Endpoint                 | Descripción                                  |
+|--------|--------------------------|----------------------------------------------|
+| GET | `/termostato/indicador/` | Obtiene indicador de carga del dispositivo   |
+| POST | `/termostato/indicador/` | Establece indicador de carga del dispositivo |
 
 **GET Response:**
 ```json
-{"nivel_de_carga": "normal"}
+{"indicador": "NORMAL"}
 ```
 
 **POST Request:**
 ```json
-{"nivel_de_carga": "bajo"}
+{"indicador": "BAJA"}
 ```
 
 ## Códigos de Respuesta
@@ -216,13 +216,13 @@ curl -X POST http://localhost:5050/termostato/estado_climatizador/ \
   -H "Content-Type: application/json" \
   -d '{"climatizador": "encendido"}'
 
-# Obtener nivel de carga
-curl http://localhost:5050/termostato/nivel_de_carga/
+# Obtener indicador de carga
+curl http://localhost:5050/termostato/indicador/
 
-# Establecer nivel de carga
-curl -X POST http://localhost:5050/termostato/nivel_de_carga/ \
+# Establecer indicador de carga
+curl -X POST http://localhost:5050/termostato/indicador/ \
   -H "Content-Type: application/json" \
-  -d '{"nivel_de_carga": "bajo"}'
+  -d '{"indicador": "BAJA"}'
 ```
 
 ## Proyecto Relacionado
