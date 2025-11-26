@@ -48,7 +48,7 @@ def obtener_temperatura_ambiente():
         termostato.temperatura_ambiente = datos["ambiente"]
         return jsonify({'mensaje': 'dato registrado'}), 201
     else:
-        return jsonify({'temperatura_ambiente': str(termostato.temperatura_ambiente)})
+        return jsonify({'temperatura_ambiente': termostato.temperatura_ambiente})
 
 
 @app_api.route("/termostato/temperatura_deseada/", methods=["GET", "POST"])
@@ -64,7 +64,7 @@ def obtener_temperatura_deseada():
         termostato.temperatura_deseada = datos["deseada"]
         return jsonify({'mensaje': 'dato registrado'}), 201
     else:
-        return jsonify({'temperatura_deseada': str(termostato.temperatura_deseada)})
+        return jsonify({'temperatura_deseada': termostato.temperatura_deseada})
 
 
 @app_api.route("/termostato/bateria/", methods=["GET", "POST"])
@@ -80,7 +80,7 @@ def obtener_carga_bateria():
         termostato.carga_bateria = datos["bateria"]
         return jsonify({'mensaje': 'dato registrado'}), 201
     else:
-        return jsonify({'carga_bateria': str(termostato.carga_bateria)})
+        return jsonify({'carga_bateria': termostato.carga_bateria})
 
 
 @app_api.route("/termostato/estado_climatizador/", methods=["GET", "POST"])
@@ -96,4 +96,20 @@ def obtener_estado_climatizador():
         termostato.estado_climatizador = datos["climatizador"]
         return jsonify({'mensaje': 'dato registrado'}), 201
     else:
-        return jsonify({'estado_climatizador': str(termostato.estado_climatizador)})
+        return jsonify({'estado_climatizador': termostato.estado_climatizador})
+
+
+@app_api.route("/termostato/nivel_de_carga/", methods=["GET", "POST"])
+def obtener_nivel_de_carga():
+    """
+    GET: Obtiene el nivel de carga del dispositivo.
+    POST: Establece el nivel de carga. Requiere JSON: {"nivel_de_carga": valor}
+    """
+    if request.method == 'POST':
+        datos = request.get_json()
+        if not datos or "nivel_de_carga" not in datos:
+            return jsonify({'error': 'Se requiere campo "nivel_de_carga"'}), 400
+        termostato.nivel_de_carga = datos["nivel_de_carga"]
+        return jsonify({'mensaje': 'dato registrado'}), 201
+    else:
+        return jsonify({'nivel_de_carga': termostato.nivel_de_carga})

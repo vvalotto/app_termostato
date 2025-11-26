@@ -1,4 +1,4 @@
-ahor# App Termostato - API REST
+# App Termostato - API REST
 
 API REST Flask para gestión de un termostato. Actúa como backend proveyendo datos al frontend `webapp_termostato`.
 
@@ -11,6 +11,7 @@ La API gestiona:
 - Temperatura deseada configurada
 - Estado del climatizador (encendido/apagado)
 - Nivel de carga de la batería
+- Nivel de carga del dispositivo
 
 ## Arquitectura
 
@@ -107,7 +108,7 @@ OK!
 
 **GET Response:**
 ```json
-{"temperatura_ambiente": "20"}
+{"temperatura_ambiente": 20}
 ```
 
 **POST Request:**
@@ -124,7 +125,7 @@ OK!
 
 **GET Response:**
 ```json
-{"temperatura_deseada": "30"}
+{"temperatura_deseada": 30}
 ```
 
 **POST Request:**
@@ -141,7 +142,7 @@ OK!
 
 **GET Response:**
 ```json
-{"carga_bateria": "5"}
+{"carga_bateria": 5.0}
 ```
 
 **POST Request:**
@@ -163,7 +164,24 @@ OK!
 
 **POST Request:**
 ```json
-{"climatizador": "encendido"}
+{"climatizador": "calentando"}
+```
+
+### Nivel de Carga
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/termostato/nivel_de_carga/` | Obtiene nivel de carga del dispositivo |
+| POST | `/termostato/nivel_de_carga/` | Establece nivel de carga del dispositivo |
+
+**GET Response:**
+```json
+{"nivel_de_carga": "normal"}
+```
+
+**POST Request:**
+```json
+{"nivel_de_carga": "bajo"}
 ```
 
 ## Códigos de Respuesta
@@ -197,6 +215,14 @@ curl http://localhost:5050/termostato/estado_climatizador/
 curl -X POST http://localhost:5050/termostato/estado_climatizador/ \
   -H "Content-Type: application/json" \
   -d '{"climatizador": "encendido"}'
+
+# Obtener nivel de carga
+curl http://localhost:5050/termostato/nivel_de_carga/
+
+# Establecer nivel de carga
+curl -X POST http://localhost:5050/termostato/nivel_de_carga/ \
+  -H "Content-Type: application/json" \
+  -d '{"nivel_de_carga": "bajo"}'
 ```
 
 ## Proyecto Relacionado
