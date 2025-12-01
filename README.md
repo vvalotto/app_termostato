@@ -1,4 +1,4 @@
-ahor# App Termostato - API REST
+# App Termostato - API REST
 
 API REST Flask para gestión de un termostato. Actúa como backend proveyendo datos al frontend `webapp_termostato`.
 
@@ -10,7 +10,8 @@ La API gestiona:
 - Temperatura ambiente actual
 - Temperatura deseada configurada
 - Estado del climatizador (encendido/apagado)
-- Nivel de carga de la batería
+- La carga de la batería
+- Indicador de carga del dispositivo
 
 ## Arquitectura
 
@@ -107,7 +108,7 @@ OK!
 
 **GET Response:**
 ```json
-{"temperatura_ambiente": "20"}
+{"temperatura_ambiente": 20}
 ```
 
 **POST Request:**
@@ -124,7 +125,7 @@ OK!
 
 **GET Response:**
 ```json
-{"temperatura_deseada": "30"}
+{"temperatura_deseada": 30}
 ```
 
 **POST Request:**
@@ -134,14 +135,14 @@ OK!
 
 ### Batería
 
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| GET | `/termostato/bateria/` | Obtiene nivel de batería |
-| POST | `/termostato/bateria/` | Establece nivel de batería |
+| Método | Endpoint | Descripción                |
+|--------|----------|----------------------------|
+| GET | `/termostato/bateria/` | Obtiene carga de batería   |
+| POST | `/termostato/bateria/` | Establece carga de batería |
 
 **GET Response:**
 ```json
-{"carga_bateria": "5"}
+{"carga_bateria": 5.0}
 ```
 
 **POST Request:**
@@ -163,7 +164,24 @@ OK!
 
 **POST Request:**
 ```json
-{"climatizador": "encendido"}
+{"climatizador": "calentando"}
+```
+
+### Indicador de Carga
+
+| Método | Endpoint                 | Descripción                                  |
+|--------|--------------------------|----------------------------------------------|
+| GET | `/termostato/indicador/` | Obtiene indicador de carga del dispositivo   |
+| POST | `/termostato/indicador/` | Establece indicador de carga del dispositivo |
+
+**GET Response:**
+```json
+{"indicador": "NORMAL"}
+```
+
+**POST Request:**
+```json
+{"indicador": "BAJA"}
 ```
 
 ## Códigos de Respuesta
@@ -197,6 +215,14 @@ curl http://localhost:5050/termostato/estado_climatizador/
 curl -X POST http://localhost:5050/termostato/estado_climatizador/ \
   -H "Content-Type: application/json" \
   -d '{"climatizador": "encendido"}'
+
+# Obtener indicador de carga
+curl http://localhost:5050/termostato/indicador/
+
+# Establecer indicador de carga
+curl -X POST http://localhost:5050/termostato/indicador/ \
+  -H "Content-Type: application/json" \
+  -d '{"indicador": "BAJA"}'
 ```
 
 ## Proyecto Relacionado

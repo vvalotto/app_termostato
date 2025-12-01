@@ -11,10 +11,6 @@ app_api = Flask(__name__)
 
 # Configuración inicial del termostato
 termostato = Configurador.termostato
-termostato.estado_climatizador = "apagado"
-termostato.carga_bateria = 5
-termostato.temperatura_deseada = 25
-termostato.temperatura_ambiente = 12
 
 
 @app_api.errorhandler(404)
@@ -48,7 +44,7 @@ def obtener_temperatura_ambiente():
         termostato.temperatura_ambiente = datos["ambiente"]
         return jsonify({'mensaje': 'dato registrado'}), 201
     else:
-        return jsonify({'temperatura_ambiente': str(termostato.temperatura_ambiente)})
+        return jsonify({'temperatura_ambiente': termostato.temperatura_ambiente})
 
 
 @app_api.route("/termostato/temperatura_deseada/", methods=["GET", "POST"])
@@ -64,13 +60,13 @@ def obtener_temperatura_deseada():
         termostato.temperatura_deseada = datos["deseada"]
         return jsonify({'mensaje': 'dato registrado'}), 201
     else:
-        return jsonify({'temperatura_deseada': str(termostato.temperatura_deseada)})
+        return jsonify({'temperatura_deseada': termostato.temperatura_deseada})
 
 
 @app_api.route("/termostato/bateria/", methods=["GET", "POST"])
 def obtener_carga_bateria():
     """
-    GET: Obtiene el nivel de carga de la batería.
+    GET: Obtiene la carga de la batería.
     POST: Establece la carga de batería. Requiere JSON: {"bateria": valor}
     """
     if request.method == 'POST':
@@ -80,13 +76,13 @@ def obtener_carga_bateria():
         termostato.carga_bateria = datos["bateria"]
         return jsonify({'mensaje': 'dato registrado'}), 201
     else:
-        return jsonify({'carga_bateria': str(termostato.carga_bateria)})
+        return jsonify({'carga_bateria': termostato.carga_bateria})
 
 
 @app_api.route("/termostato/estado_climatizador/", methods=["GET", "POST"])
 def obtener_estado_climatizador():
     """
-    GET: Obtiene el estado del climatizador (encendido/apagado).
+    GET: Obtiene el estado del climatizador (encendido/enfriando/calentando).
     POST: Establece el estado del climatizador. Requiere JSON: {"climatizador": valor}
     """
     if request.method == 'POST':
@@ -96,4 +92,20 @@ def obtener_estado_climatizador():
         termostato.estado_climatizador = datos["climatizador"]
         return jsonify({'mensaje': 'dato registrado'}), 201
     else:
-        return jsonify({'estado_climatizador': str(termostato.estado_climatizador)})
+        return jsonify({'estado_climatizador': termostato.estado_climatizador})
+
+
+@app_api.route("/termostato/indicador/", methods=["GET", "POST"])
+def obtener_indicador():
+    """
+    GET: Obtiene el indicador de carga del dispositivo.
+    POST: Establece el indicador de carga. Requiere JSON: {"indicador": valor}
+    """
+    if request.method == 'POST':
+        datos = request.get_json()
+        if not datos or "indicador" not in datos:
+            return jsonify({'error': 'Se requiere campo "indicador"'}), 400
+        termostato.indicador = datos["indicador"]
+        return jsonify({'mensaje': 'dato registrado'}), 201
+    else:
+        return jsonify({'indicador': termostato.indicador})
