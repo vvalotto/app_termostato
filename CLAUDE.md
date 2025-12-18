@@ -64,3 +64,38 @@ Este proyecto está vinculado al proyecto Jira `app_termostato`. Usar las herram
 - **Crear issues**: `mcp__atlassian__createJiraIssue` con projectKey="APP" (o la clave del proyecto)
 
 Consultar Jira antes de implementar nuevas funcionalidades para verificar historias de usuario y requisitos.
+
+## Quality Agent
+
+Este proyecto incluye un agente de calidad de codigo configurado en `.claude/agents/quality-agent.md`.
+
+### Metricas Medidas
+
+| Metrica | Herramienta | Umbral |
+|---------|-------------|--------|
+| Complejidad Ciclomatica (CC) | `radon cc` | <= 10 |
+| Indice Mantenibilidad (MI) | `radon mi` | > 20 |
+| Pylint Score | `pylint` | >= 8.0 |
+| LOC por funcion | `radon raw` | <= 50 |
+
+### Comandos Disponibles
+
+- `/quality-check [path]` - Ejecutar analisis de calidad
+- `/quality-report` - Generar reporte completo
+
+### Ejecucion Manual
+
+```bash
+# Instalar dependencias de metricas
+pip install -r scripts/requirements.txt
+
+# Calcular metricas
+python scripts/metrics/calculate_metrics.py .
+
+# Validar quality gates
+python scripts/metrics/validate_gates.py reports/quality_*.json
+```
+
+### Configuracion
+
+Los umbrales de quality gates estan definidos en `.claude/settings.json`.

@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "project_name": "app_termostato",
+  "quality_gates": {
+    "max_complexity": 10,
+    "min_maintainability": 20,
+    "min_pylint_score": 8.0,
+    "max_function_lines": 50
+  },
+  "metrics": {
+    "tools": {
+      "complexity": "radon cc",
+      "maintainability": "radon mi",
+      "size": "radon raw",
+      "linting": "pylint"
+    },
+    "output_dir": "reports/"
+  }
+}
