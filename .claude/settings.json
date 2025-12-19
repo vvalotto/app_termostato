@@ -15,5 +15,18 @@
       "linting": "pylint"
     },
     "output_dir": "reports/"
+  },
+  "hooks": {
+    "description": "Configuracion de hooks para quality gates automaticos",
+    "post_edit_python": {
+      "enabled": true,
+      "command": "python scripts/metrics/calculate_metrics.py",
+      "description": "Ejecutar analisis de calidad cuando se modifiquen archivos Python"
+    },
+    "pre_commit": {
+      "enabled": true,
+      "command": "python scripts/metrics/calculate_metrics.py . && python scripts/metrics/validate_gates.py reports/quality_*.json",
+      "description": "Validar quality gates antes de commit"
+    }
   }
 }
