@@ -67,35 +67,100 @@ Consultar Jira antes de implementar nuevas funcionalidades para verificar histor
 
 ## Quality Agent
 
-Este proyecto incluye un agente de calidad de codigo configurado en `.claude/agents/quality-agent.md`.
+Este proyecto incluye un ambiente agentico para calidad de codigo implementado en la rama `TER-17`.
+
+### Estructura del Ambiente Agentico
+
+```
+.claude/
+├── agents/
+│   └── quality-agent.md      # Agente especializado en calidad
+├── commands/
+│   ├── quality-check.md      # Comando /quality-check
+│   └── quality-report.md     # Comando /quality-report
+└── settings.json             # Configuracion y umbrales
+
+scripts/metrics/
+├── calculate_metrics.py      # Calcula LOC, CC, MI, Pylint
+├── validate_gates.py         # Valida quality gates
+└── generate_report.py        # Genera reportes Markdown
+
+reports/                      # Reportes generados (JSON y MD)
+```
 
 ### Metricas Medidas
 
-| Metrica | Herramienta | Umbral |
-|---------|-------------|--------|
-| Complejidad Ciclomatica (CC) | `radon cc` | <= 10 |
-| Indice Mantenibilidad (MI) | `radon mi` | > 20 |
-| Pylint Score | `pylint` | >= 8.0 |
-| LOC por funcion | `radon raw` | <= 50 |
+| Metrica | Herramienta | Umbral | Descripcion |
+|---------|-------------|--------|-------------|
+| CC | `radon cc` | <= 10 | Complejidad Ciclomatica - caminos en el codigo |
+| MI | `radon mi` | > 20 | Indice de Mantenibilidad (0-100) |
+| Pylint | `pylint` | >= 8.0 | Score de calidad y estilo |
+| LOC | `radon raw` | <= 50/funcion | Lineas de codigo por funcion |
 
 ### Comandos Disponibles
 
-- `/quality-check [path]` - Ejecutar analisis de calidad
-- `/quality-report` - Generar reporte completo
+| Comando | Descripcion |
+|---------|-------------|
+| `/quality-check [path]` | Analisis rapido de calidad |
+| `/quality-report` | Reporte completo en Markdown |
 
-### Ejecucion Manual
+### Uso del Agente
+
+El agente se activa automaticamente cuando:
+- Se modifican archivos Python
+- Se solicita "analizar calidad" o "verificar codigo"
+- Se invoca explicitamente: "usar quality-agent"
+
+### Ejecucion Manual de Scripts
 
 ```bash
-# Instalar dependencias de metricas
+# Instalar dependencias
 pip install -r scripts/requirements.txt
 
-# Calcular metricas
-python scripts/metrics/calculate_metrics.py .
+# Analizar modulo especifico
+python scripts/metrics/calculate_metrics.py general/
+
+# Analizar todo el proyecto (excluyendo venv/)
+python scripts/metrics/calculate_metrics.py servicios/
 
 # Validar quality gates
 python scripts/metrics/validate_gates.py reports/quality_*.json
+
+# Generar reporte Markdown
+python scripts/metrics/generate_report.py reports/quality_*.json
 ```
+
+### Interpretacion de Resultados
+
+**Grados de Calidad:**
+- **A**: Todos los gates pasan (3/3)
+- **B**: 2/3 gates pasan
+- **C**: 1/3 gates pasan
+- **F**: Ningun gate pasa
+
+**Distribucion de Complejidad (CC):**
+- A (1-5): Excelente - codigo simple
+- B (6-10): Aceptable - complejidad moderada
+- C (11-20): Riesgoso - considerar refactorizar
+- D-F (21+): Critico - refactorizar obligatorio
 
 ### Configuracion
 
-Los umbrales de quality gates estan definidos en `.claude/settings.json`.
+Los umbrales se configuran en `.claude/settings.json`:
+
+```json
+{
+  "quality_gates": {
+    "max_complexity": 10,
+    "min_maintainability": 20,
+    "min_pylint_score": 8.0,
+    "max_function_lines": 50
+  }
+}
+```
+
+### Estado Actual del Proyecto
+
+Ultima ejecucion (2025-12-19):
+- **general/**: Grado A (CC=1.08, MI=100.0, Pylint=9.67)
+- **servicios/**: Grado A (CC=2.88, MI=83.3, Pylint=8.6)
