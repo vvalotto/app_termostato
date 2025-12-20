@@ -31,8 +31,11 @@ class Termostato:
 
     @temperatura_ambiente.setter
     def temperatura_ambiente(self, valor):
-        """Establece la temperatura ambiente."""
-        self._temperatura_ambiente = int(valor)
+        """Establece la temperatura ambiente (0-50°C)."""
+        valor = int(valor)
+        if not (0 <= valor <= 50):
+            raise ValueError("temperatura_ambiente debe estar entre 0 y 50")
+        self._temperatura_ambiente = valor
 
     @property
     def temperatura_deseada(self):
@@ -41,8 +44,11 @@ class Termostato:
 
     @temperatura_deseada.setter
     def temperatura_deseada(self, valor):
-        """Establece la temperatura deseada."""
-        self._temperatura_deseada = int(valor)
+        """Establece la temperatura deseada (15-30°C)."""
+        valor = int(valor)
+        if not (15 <= valor <= 30):
+            raise ValueError("temperatura_deseada debe estar entre 15 y 30")
+        self._temperatura_deseada = valor
 
     @property
     def carga_bateria(self):
