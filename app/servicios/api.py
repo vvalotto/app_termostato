@@ -79,7 +79,10 @@ def obtener_carga_bateria():
         datos = request.get_json()
         if not datos or "bateria" not in datos:
             return jsonify({'error': 'Se requiere campo "bateria"'}), 400
-        termostato.carga_bateria = datos["bateria"]
+        try:
+            termostato.carga_bateria = datos["bateria"]
+        except ValueError as e:
+            return jsonify({'error': str(e)}), 400
         return jsonify({'mensaje': 'dato registrado'}), 201
     else:
         return jsonify({'carga_bateria': termostato.carga_bateria})
