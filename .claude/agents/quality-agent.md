@@ -115,17 +115,17 @@ Listar mejoras especificas y accionables:
 
 1. **CRITICO**: Funcion `calculate_metrics` tiene CC=15 (limite: 10)
    - Sugerencia: Extraer condiciones anidadas en funciones separadas
-   - Ubicacion: `scripts/metrics.py:45`
+   - Ubicacion: `quality/scripts/calculate_metrics.py:45`
 
 2. **ALTO**: Modulo `configurador.py` tiene MI=18 (limite: 20)
    - Sugerencia: Reducir dependencias, dividir en modulos mas pequenios
-   - Ubicacion: `general/configurador.py`
+   - Ubicacion: `app/general/configurador.py`
 
 ### Paso 5: Guardar Reporte
 
 Guardar reporte detallado en:
-- `reports/quality_YYYYMMDD_HHMMSS.md` (legible)
-- `reports/quality_YYYYMMDD_HHMMSS.json` (para automatizacion)
+- `quality/reports/quality_YYYYMMDD_HHMMSS.md` (legible)
+- `quality/reports/quality_YYYYMMDD_HHMMSS.json` (para automatizacion)
 
 ## Formato de Salida
 

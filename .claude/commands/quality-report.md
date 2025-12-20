@@ -14,10 +14,10 @@ Cuando el usuario ejecute este comando, debes:
 
 1. **Ejecutar analisis completo del proyecto**:
    ```bash
-   python scripts/metrics/calculate_metrics.py .
+   python quality/scripts/calculate_metrics.py .
    ```
 
-2. **Leer el archivo JSON generado** en `reports/quality_*.json` (el mas reciente)
+2. **Leer el archivo JSON generado** en `quality/reports/quality_*.json` (el mas reciente)
 
 3. **Generar un reporte Markdown detallado** que incluya:
 
@@ -85,7 +85,7 @@ Cuando el usuario ejecute este comando, debes:
 [Lista de mejoras sugeridas basadas en los gates fallidos]
 ```
 
-4. **Guardar el reporte** en `reports/quality_report_[fecha].md`
+4. **Guardar el reporte** en `quality/reports/quality_report_[fecha].md`
 
 5. **Mostrar resumen al usuario** con ubicacion del archivo generado
 

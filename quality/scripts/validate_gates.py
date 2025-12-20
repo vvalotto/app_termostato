@@ -101,7 +101,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Uso: python validate_gates.py <archivo_metricas.json>")
         print("\nEjemplo:")
-        print("  python validate_gates.py reports/quality_20251219_143022.json")
+        print("  python validate_gates.py quality/reports/quality_20251219_143022.json")
         sys.exit(2)
 
     archivo_metricas = sys.argv[1]

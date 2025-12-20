@@ -20,7 +20,7 @@ Cuando el usuario ejecute este comando, debes:
 
 2. **Ejecutar el script de metricas**:
    ```bash
-   python scripts/metrics/calculate_metrics.py $TARGET
+   python quality/scripts/calculate_metrics.py $TARGET
    ```
 
 3. **Mostrar el resumen al usuario** con:
@@ -30,7 +30,7 @@ Cuando el usuario ejecute este comando, debes:
 
 4. **Si hay gates fallidos**, ejecutar validacion detallada:
    ```bash
-   python scripts/metrics/validate_gates.py reports/quality_*.json
+   python quality/scripts/validate_gates.py quality/reports/quality_*.json
    ```
 
 5. **Proporcionar recomendaciones** especificas para mejorar el codigo:

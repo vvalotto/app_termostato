@@ -197,7 +197,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Uso: python generate_report.py <metricas.json>")
         print("\nEjemplo:")
-        print("  python generate_report.py reports/quality_20251219_143022.json")
+        print("  python generate_report.py quality/reports/quality_20251219_143022.json")
         sys.exit(1)
 
     archivo_metricas = sys.argv[1]
@@ -214,7 +214,7 @@ if __name__ == "__main__":
 
     # Guardar a archivo
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    archivo_reporte = f"reports/quality_report_{timestamp}.md"
+    archivo_reporte = f"quality/reports/quality_report_{timestamp}.md"
 
     # Crear directorio si no existe
     Path(archivo_reporte).parent.mkdir(parents=True, exist_ok=True)

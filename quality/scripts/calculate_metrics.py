@@ -392,7 +392,7 @@ if __name__ == "__main__":
     if calculador.ejecutar_todo():
         # Guardar JSON
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        archivo_salida = f"reports/quality_{timestamp}.json"
+        archivo_salida = f"quality/reports/quality_{timestamp}.json"
         calculador.guardar_json(archivo_salida)
 
         # Imprimir resumen
