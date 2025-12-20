@@ -31,6 +31,18 @@ def comprueba():
     return "OK!", 200
 
 
+@app_api.route("/termostato/", methods=["GET"])
+def obtener_termostato():
+    """GET: Obtiene el estado completo del termostato."""
+    return jsonify({
+        'temperatura_ambiente': termostato.temperatura_ambiente,
+        'temperatura_deseada': termostato.temperatura_deseada,
+        'carga_bateria': termostato.carga_bateria,
+        'estado_climatizador': termostato.estado_climatizador,
+        'indicador': termostato.indicador
+    })
+
+
 @app_api.route("/termostato/temperatura_ambiente/", methods=["GET", "POST"])
 def obtener_temperatura_ambiente():
     """
