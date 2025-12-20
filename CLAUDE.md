@@ -10,7 +10,7 @@ Flask REST API backend for a thermostat system (app_termostato). This is the bac
 
 **Run the server:**
 ```bash
-python app.py
+python run.py
 ```
 Server runs on http://localhost:5050 by default.
 
@@ -26,17 +26,21 @@ pip install -r requirements.txt
 ## Architecture
 
 ```
-app.py                      # Entry point - launches Flask server
-├── servicios/
-│   └── api.py              # REST endpoints (Flask routes)
-└── general/
-    ├── termostato.py       # Termostato model (data class with properties)
-    └── configurador.py     # Singleton pattern - holds shared Termostato instance
+run.py                      # Entry point - launches Flask server
+├── app/                    # Application package
+│   ├── __init__.py
+│   ├── servicios/
+│   │   └── api.py          # REST endpoints (Flask routes)
+│   └── general/
+│       ├── termostato.py   # Termostato model (data class with properties)
+│       └── configurador.py # Singleton pattern - holds shared Termostato instance
+├── tests/                  # Test cases
+└── quality/                # Quality agent scripts and reports
 ```
 
 **Key patterns:**
 - `Configurador.termostato` provides a singleton Termostato instance shared across the API
-- All API endpoints in `servicios/api.py` use this shared instance
+- All API endpoints in `app/servicios/api.py` use this shared instance
 - The Termostato class uses Python properties with setters for data validation (int/float conversion)
 
 ## API Endpoints
@@ -80,12 +84,13 @@ Este proyecto incluye un ambiente agentico para calidad de codigo implementado e
 │   └── quality-report.md     # Comando /quality-report
 └── settings.json             # Configuracion y umbrales
 
-scripts/metrics/
-├── calculate_metrics.py      # Calcula LOC, CC, MI, Pylint
-├── validate_gates.py         # Valida quality gates
-└── generate_report.py        # Genera reportes Markdown
-
-reports/                      # Reportes generados (JSON y MD)
+quality/
+├── scripts/
+│   ├── calculate_metrics.py  # Calcula LOC, CC, MI, Pylint
+│   ├── validate_gates.py     # Valida quality gates
+│   └── generate_report.py    # Genera reportes Markdown
+├── reports/                  # Reportes generados (JSON y MD)
+└── requirements.txt          # Dependencias del ambiente de calidad
 ```
 
 ### Metricas Medidas
@@ -115,19 +120,19 @@ El agente se activa automaticamente cuando:
 
 ```bash
 # Instalar dependencias
-pip install -r scripts/requirements.txt
+pip install -r quality/requirements.txt
 
 # Analizar modulo especifico
-python scripts/metrics/calculate_metrics.py general/
+python quality/scripts/calculate_metrics.py app/general/
 
-# Analizar todo el proyecto (excluyendo venv/)
-python scripts/metrics/calculate_metrics.py servicios/
+# Analizar todo el proyecto
+python quality/scripts/calculate_metrics.py app/
 
 # Validar quality gates
-python scripts/metrics/validate_gates.py reports/quality_*.json
+python quality/scripts/validate_gates.py quality/reports/quality_*.json
 
 # Generar reporte Markdown
-python scripts/metrics/generate_report.py reports/quality_*.json
+python quality/scripts/generate_report.py quality/reports/quality_*.json
 ```
 
 ### Interpretacion de Resultados
@@ -162,5 +167,5 @@ Los umbrales se configuran en `.claude/settings.json`:
 ### Estado Actual del Proyecto
 
 Ultima ejecucion (2025-12-19):
-- **general/**: Grado A (CC=1.08, MI=100.0, Pylint=9.67)
-- **servicios/**: Grado A (CC=2.88, MI=83.3, Pylint=8.6)
+- **app/general/**: Grado A (CC=1.08, MI=100.0, Pylint=9.67)
+- **app/servicios/**: Grado A (CC=2.88, MI=83.3, Pylint=8.6)

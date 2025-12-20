@@ -4,7 +4,7 @@ Expone endpoints para consultar y modificar el estado del termostato.
 """
 from flask import Flask, make_response, request, jsonify
 
-from general.configurador import Configurador
+from app.general.configurador import Configurador
 
 # Instancia la aplicación de servicios Flask
 app_api = Flask(__name__)

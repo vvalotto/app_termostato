@@ -33,7 +33,7 @@ Este plan define las tareas necesarias para implementar un ambiente agentico de 
 **Objetivo:** Instalar radon, pylint y dependencias necesarias
 
 **Acciones:**
-- [ ] Agregar dependencias a requirements.txt o crear scripts/requirements.txt
+- [ ] Agregar dependencias a requirements.txt o crear quality/requirements.txt
 - [ ] Ejecutar `pip install radon pylint pytest pytest-cov`
 - [ ] Verificar instalacion con `radon --version` y `pylint --version`
 
@@ -48,8 +48,8 @@ Este plan define las tareas necesarias para implementar un ambiente agentico de 
 **Acciones:**
 - [ ] Crear `.claude/agents/`
 - [ ] Crear `.claude/commands/`
-- [ ] Crear `scripts/metrics/`
-- [ ] Crear `reports/`
+- [ ] Crear `quality/scripts/`
+- [ ] Crear `quality/reports/`
 
 **Estructura resultante:**
 ```
@@ -57,9 +57,13 @@ app_termostato/
 ├── .claude/
 │   ├── agents/
 │   └── commands/
-├── scripts/
-│   └── metrics/
-└── reports/
+├── app/
+│   ├── general/
+│   └── servicios/
+├── quality/
+│   ├── scripts/
+│   └── reports/
+└── tests/
 ```
 
 ---
@@ -69,9 +73,9 @@ app_termostato/
 **Objetivo:** Confirmar que radon y pylint funcionan con el codigo existente
 
 **Acciones:**
-- [ ] Ejecutar `radon cc general/ -a` para ver complejidad
-- [ ] Ejecutar `radon mi general/ -s` para ver mantenibilidad
-- [ ] Ejecutar `pylint general/ --score=yes` para ver score
+- [ ] Ejecutar `radon cc app/general/ -a` para ver complejidad
+- [ ] Ejecutar `radon mi app/general/ -s` para ver mantenibilidad
+- [ ] Ejecutar `pylint app/general/ --score=yes` para ver score
 
 **Criterio de aceptacion:** Se obtienen metricas del codigo existente sin errores.
 
@@ -150,7 +154,7 @@ app_termostato/
 
 **Objetivo:** Script principal que calcula todas las metricas
 
-**Archivo:** `scripts/metrics/calculate_metrics.py`
+**Archivo:** `quality/scripts/calculate_metrics.py`
 
 **Funcionalidades:**
 - Calcular LOC/SLOC con radon raw
@@ -162,8 +166,8 @@ app_termostato/
 
 **Criterio de aceptacion:**
 ```bash
-python scripts/metrics/calculate_metrics.py general/
-# Genera reports/quality_YYYYMMDD_HHMMSS.json
+python quality/scripts/calculate_metrics.py app/general/
+# Genera quality/reports/quality_YYYYMMDD_HHMMSS.json
 ```
 
 ---
@@ -172,7 +176,7 @@ python scripts/metrics/calculate_metrics.py general/
 
 **Objetivo:** Script que valida quality gates contra metricas
 
-**Archivo:** `scripts/metrics/validate_gates.py`
+**Archivo:** `quality/scripts/validate_gates.py`
 
 **Funcionalidades:**
 - Cargar metricas desde JSON
@@ -182,7 +186,7 @@ python scripts/metrics/calculate_metrics.py general/
 
 **Criterio de aceptacion:**
 ```bash
-python scripts/metrics/validate_gates.py reports/quality_*.json
+python quality/scripts/validate_gates.py quality/reports/quality_*.json
 # Exit code 0 si pasan todos los gates
 ```
 
@@ -192,18 +196,18 @@ python scripts/metrics/validate_gates.py reports/quality_*.json
 
 **Objetivo:** Script que genera reporte Markdown legible
 
-**Archivo:** `scripts/metrics/generate_report.py`
+**Archivo:** `quality/scripts/generate_report.py`
 
 **Funcionalidades:**
 - Cargar metricas desde JSON
 - Generar reporte Markdown detallado
 - Incluir recomendaciones especificas
-- Guardar en reports/
+- Guardar en quality/reports/
 
 **Criterio de aceptacion:**
 ```bash
-python scripts/metrics/generate_report.py reports/quality_*.json
-# Genera reports/quality_YYYYMMDD_HHMMSS.md
+python quality/scripts/generate_report.py quality/reports/quality_*.json
+# Genera quality/reports/quality_YYYYMMDD_HHMMSS.md
 ```
 
 ---
@@ -212,7 +216,7 @@ python scripts/metrics/generate_report.py reports/quality_*.json
 
 **Objetivo:** Documentar dependencias de los scripts
 
-**Archivo:** `scripts/requirements.txt`
+**Archivo:** `quality/requirements.txt`
 
 **Contenido:**
 ```
@@ -263,8 +267,8 @@ pytest-cov>=4.1.0
 **Objetivo:** Validar que todo funciona end-to-end
 
 **Acciones:**
-- [ ] Ejecutar `python scripts/metrics/calculate_metrics.py .`
-- [ ] Verificar generacion de JSON en reports/
+- [ ] Ejecutar `python quality/scripts/calculate_metrics.py .`
+- [ ] Verificar generacion de JSON en quality/reports/
 - [ ] Revisar metricas obtenidas
 
 **Criterio de aceptacion:** Se genera reporte sin errores.
@@ -335,7 +339,7 @@ pytest-cov>=4.1.0
 
 **Fecha de ejecucion:** 2025-12-19
 
-### Modulo: general/
+### Modulo: app/general/
 
 | Metrica | Valor | Estado |
 |---------|-------|--------|
@@ -344,7 +348,7 @@ pytest-cov>=4.1.0
 | Pylint Score | 9.67/10 | [PASS] |
 | Grado | A | - |
 
-### Modulo: servicios/
+### Modulo: app/servicios/
 
 | Metrica | Valor | Estado |
 |---------|-------|--------|

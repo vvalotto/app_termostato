@@ -56,7 +56,7 @@ htmlcov/
 *.zip
 
 # Reportes de calidad generados
-reports/quality_*.json
-reports/quality_*.md
-reports/quality_report_*.md
-!reports/.gitkeep
+quality/reports/quality_*.json
+quality/reports/quality_*.md
+quality/reports/quality_report_*.md
+!quality/reports/.gitkeep
