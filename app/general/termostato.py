@@ -57,8 +57,11 @@ class Termostato:
 
     @carga_bateria.setter
     def carga_bateria(self, valor):
-        """Establece la carga de la batería."""
-        self._carga_bateria = round(float(valor), 2)
+        """Establece la carga de la batería (0.0-5.0)."""
+        valor = round(float(valor), 2)
+        if not (0.0 <= valor <= 5.0):
+            raise ValueError("carga_bateria debe estar entre 0.0 y 5.0")
+        self._carga_bateria = valor
 
     @property
     def estado_climatizador(self):
