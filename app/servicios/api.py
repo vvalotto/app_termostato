@@ -41,7 +41,10 @@ def obtener_temperatura_ambiente():
         datos = request.get_json()
         if not datos or "ambiente" not in datos:
             return jsonify({'error': 'Se requiere campo "ambiente"'}), 400
-        termostato.temperatura_ambiente = datos["ambiente"]
+        try:
+            termostato.temperatura_ambiente = datos["ambiente"]
+        except ValueError as e:
+            return jsonify({'error': str(e)}), 400
         return jsonify({'mensaje': 'dato registrado'}), 201
     else:
         return jsonify({'temperatura_ambiente': termostato.temperatura_ambiente})
@@ -57,7 +60,10 @@ def obtener_temperatura_deseada():
         datos = request.get_json()
         if not datos or "deseada" not in datos:
             return jsonify({'error': 'Se requiere campo "deseada"'}), 400
-        termostato.temperatura_deseada = datos["deseada"]
+        try:
+            termostato.temperatura_deseada = datos["deseada"]
+        except ValueError as e:
+            return jsonify({'error': str(e)}), 400
         return jsonify({'mensaje': 'dato registrado'}), 201
     else:
         return jsonify({'temperatura_deseada': termostato.temperatura_deseada})
