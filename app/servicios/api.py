@@ -3,11 +3,12 @@ API REST del termostato.
 Expone endpoints para consultar y modificar el estado del termostato.
 """
 import logging
+from datetime import datetime
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from app.configuracion import Configurador
+from app.configuracion import Configurador, Config
 from app.servicios.errors import error_response
 
 # Configurar logging
@@ -24,6 +25,9 @@ CORS(app_api)
 
 # Configuración inicial del termostato
 termostato = Configurador.termostato
+
+# Registro de inicio del servidor para calcular uptime
+_inicio_servidor = datetime.now()
 
 
 @app_api.errorhandler(404)
@@ -42,8 +46,16 @@ def internal_server_error(error):
 
 @app_api.route("/comprueba/", methods=["GET"])
 def comprueba():
-    """Endpoint de health check para verificar que el servidor responde."""
-    return "OK!", 200
+    """Endpoint de health check con información del sistema."""
+    ahora = datetime.now()
+    uptime = (ahora - _inicio_servidor).total_seconds()
+    logger.info("GET /comprueba/ -> 200")
+    return jsonify({
+        'status': 'ok',
+        'version': Config.VERSION,
+        'uptime_seconds': int(uptime),
+        'timestamp': ahora.isoformat()
+    })
 
 
 @app_api.route("/termostato/", methods=["GET"])
