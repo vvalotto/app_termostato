@@ -4,7 +4,7 @@ Lanza el servidor Flask con la configuración definida.
 """
 import os
 
-from servicios.api import app_api
+from app.servicios.api import app_api
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5050))
