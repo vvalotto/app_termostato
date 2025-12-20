@@ -5,6 +5,7 @@ Expone endpoints para consultar y modificar el estado del termostato.
 import logging
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 from app.general.configurador import Configurador
 from app.servicios.errors import error_response
@@ -19,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 # Instancia la aplicación de servicios Flask
 app_api = Flask(__name__)
+CORS(app_api)
 
 # Configuración inicial del termostato
 termostato = Configurador.termostato
