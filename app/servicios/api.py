@@ -59,6 +59,23 @@ def obtener_termostato():
     })
 
 
+@app_api.route("/termostato/historial/", methods=["GET"])
+def obtener_historial():
+    """GET: Obtiene el historial de temperaturas ambiente."""
+    limite = request.args.get('limite', type=int)
+    repositorio = Configurador.historial_repositorio
+    mapper = Configurador.historial_mapper
+
+    registros = repositorio.obtener(limite)
+    historial = [mapper.a_dict(r) for r in registros]
+
+    logger.info("GET /termostato/historial/ -> 200 (%d registros)", len(historial))
+    return jsonify({
+        'historial': historial,
+        'total': repositorio.cantidad()
+    })
+
+
 @app_api.route("/termostato/temperatura_ambiente/", methods=["GET", "POST"])
 def obtener_temperatura_ambiente():
     """

@@ -2,6 +2,7 @@
 Modelo de datos del termostato.
 Define la clase Termostato que representa el estado del dispositivo.
 """
+from datetime import datetime
 
 
 class Termostato:
@@ -16,8 +17,13 @@ class Termostato:
         indicador: Indicador de carga del dispositivo (default: "NORMAL")
     """
 
-    def __init__(self):
-        """Inicializa el termostato con valores por defecto."""
+    def __init__(self, historial_repositorio=None):
+        """Inicializa el termostato con valores por defecto.
+
+        Args:
+            historial_repositorio: Repositorio para almacenar historial de temperaturas (opcional)
+        """
+        self._historial_repositorio = historial_repositorio
         self._temperatura_ambiente = 20
         self._temperatura_deseada = 24
         self._carga_bateria = 5.0
@@ -36,6 +42,7 @@ class Termostato:
         if not (0 <= valor <= 50):
             raise ValueError("temperatura_ambiente debe estar entre 0 y 50")
         self._temperatura_ambiente = valor
+        self._registrar_en_historial(valor)
 
     @property
     def temperatura_deseada(self):
@@ -82,3 +89,13 @@ class Termostato:
     def indicador(self, valor):
         """Establece el indicador de carga del dispositivo."""
         self._indicador = str(valor)
+
+    def _registrar_en_historial(self, temperatura):
+        """Registra una temperatura en el historial si hay repositorio configurado."""
+        if self._historial_repositorio:
+            from app.datos import RegistroTemperatura
+            registro = RegistroTemperatura(
+                temperatura=temperatura,
+                timestamp=datetime.now()
+            )
+            self._historial_repositorio.agregar(registro)
