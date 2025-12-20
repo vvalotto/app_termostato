@@ -2,12 +2,13 @@
 Configuración global de la aplicación.
 Provee una instancia compartida del termostato (patrón Singleton).
 """
-from .termostato import Termostato
+from app.general.termostato import Termostato
 from app.datos import (
     HistorialRepositorioMemoria,
     HistorialMapper,
     TermostatoPersistidorJSON
 )
+from app.configuracion.config import Config
 
 
 class Configurador:
@@ -25,6 +26,9 @@ class Configurador:
     persistidor = TermostatoPersistidorJSON()
     termostato = Termostato(
         historial_repositorio=historial_repositorio,
-        persistidor=persistidor
+        persistidor=persistidor,
+        temperatura_ambiente_inicial=Config.TEMPERATURA_AMBIENTE_INICIAL,
+        temperatura_deseada_inicial=Config.TEMPERATURA_DESEADA_INICIAL,
+        carga_bateria_inicial=Config.CARGA_BATERIA_INICIAL
     )
     termostato.cargar_estado()

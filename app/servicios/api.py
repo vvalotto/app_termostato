@@ -7,7 +7,7 @@ import logging
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from app.general.configurador import Configurador
+from app.configuracion import Configurador
 from app.servicios.errors import error_response
 
 # Configurar logging

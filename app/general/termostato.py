@@ -4,6 +4,8 @@ Define la clase Termostato que representa el estado del dispositivo.
 """
 from datetime import datetime
 
+from app.configuracion.config import Config
+
 
 class Termostato:
     """
@@ -17,18 +19,23 @@ class Termostato:
         indicador: Indicador de carga del dispositivo (default: "NORMAL")
     """
 
-    def __init__(self, historial_repositorio=None, persistidor=None):
-        """Inicializa el termostato con valores por defecto.
+    def __init__(self, historial_repositorio=None, persistidor=None,
+                 temperatura_ambiente_inicial=20, temperatura_deseada_inicial=24,
+                 carga_bateria_inicial=5.0):
+        """Inicializa el termostato con valores por defecto o configurados.
 
         Args:
             historial_repositorio: Repositorio para almacenar historial de temperaturas (opcional)
             persistidor: Persistidor para guardar estado en disco (opcional)
+            temperatura_ambiente_inicial: Temperatura ambiente inicial (default: 20)
+            temperatura_deseada_inicial: Temperatura deseada inicial (default: 24)
+            carga_bateria_inicial: Carga de bateria inicial (default: 5.0)
         """
         self._historial_repositorio = historial_repositorio
         self._persistidor = persistidor
-        self._temperatura_ambiente = 20
-        self._temperatura_deseada = 24
-        self._carga_bateria = 5.0
+        self._temperatura_ambiente = temperatura_ambiente_inicial
+        self._temperatura_deseada = temperatura_deseada_inicial
+        self._carga_bateria = carga_bateria_inicial
         self._estado_climatizador = "apagado"
         self._indicador = "NORMAL"
 
@@ -39,10 +46,13 @@ class Termostato:
 
     @temperatura_ambiente.setter
     def temperatura_ambiente(self, valor):
-        """Establece la temperatura ambiente (0-50°C)."""
+        """Establece la temperatura ambiente (rango configurable)."""
         valor = int(valor)
-        if not (0 <= valor <= 50):
-            raise ValueError("temperatura_ambiente debe estar entre 0 y 50")
+        if not (Config.TEMPERATURA_AMBIENTE_MIN <= valor <= Config.TEMPERATURA_AMBIENTE_MAX):
+            raise ValueError(
+                f"temperatura_ambiente debe estar entre "
+                f"{Config.TEMPERATURA_AMBIENTE_MIN} y {Config.TEMPERATURA_AMBIENTE_MAX}"
+            )
         self._temperatura_ambiente = valor
         self._registrar_en_historial(valor)
         self._guardar_estado()
@@ -54,10 +64,13 @@ class Termostato:
 
     @temperatura_deseada.setter
     def temperatura_deseada(self, valor):
-        """Establece la temperatura deseada (15-30°C)."""
+        """Establece la temperatura deseada (rango configurable)."""
         valor = int(valor)
-        if not (15 <= valor <= 30):
-            raise ValueError("temperatura_deseada debe estar entre 15 y 30")
+        if not (Config.TEMPERATURA_DESEADA_MIN <= valor <= Config.TEMPERATURA_DESEADA_MAX):
+            raise ValueError(
+                f"temperatura_deseada debe estar entre "
+                f"{Config.TEMPERATURA_DESEADA_MIN} y {Config.TEMPERATURA_DESEADA_MAX}"
+            )
         self._temperatura_deseada = valor
         self._guardar_estado()
 
@@ -68,10 +81,13 @@ class Termostato:
 
     @carga_bateria.setter
     def carga_bateria(self, valor):
-        """Establece la carga de la batería (0.0-5.0)."""
+        """Establece la carga de la batería (rango configurable)."""
         valor = round(float(valor), 2)
-        if not (0.0 <= valor <= 5.0):
-            raise ValueError("carga_bateria debe estar entre 0.0 y 5.0")
+        if not (Config.CARGA_BATERIA_MIN <= valor <= Config.CARGA_BATERIA_MAX):
+            raise ValueError(
+                f"carga_bateria debe estar entre "
+                f"{Config.CARGA_BATERIA_MIN} y {Config.CARGA_BATERIA_MAX}"
+            )
         self._carga_bateria = valor
         self._guardar_estado()
 
