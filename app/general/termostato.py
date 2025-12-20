@@ -17,13 +17,15 @@ class Termostato:
         indicador: Indicador de carga del dispositivo (default: "NORMAL")
     """
 
-    def __init__(self, historial_repositorio=None):
+    def __init__(self, historial_repositorio=None, persistidor=None):
         """Inicializa el termostato con valores por defecto.
 
         Args:
             historial_repositorio: Repositorio para almacenar historial de temperaturas (opcional)
+            persistidor: Persistidor para guardar estado en disco (opcional)
         """
         self._historial_repositorio = historial_repositorio
+        self._persistidor = persistidor
         self._temperatura_ambiente = 20
         self._temperatura_deseada = 24
         self._carga_bateria = 5.0
@@ -43,6 +45,7 @@ class Termostato:
             raise ValueError("temperatura_ambiente debe estar entre 0 y 50")
         self._temperatura_ambiente = valor
         self._registrar_en_historial(valor)
+        self._guardar_estado()
 
     @property
     def temperatura_deseada(self):
@@ -56,6 +59,7 @@ class Termostato:
         if not (15 <= valor <= 30):
             raise ValueError("temperatura_deseada debe estar entre 15 y 30")
         self._temperatura_deseada = valor
+        self._guardar_estado()
 
     @property
     def carga_bateria(self):
@@ -69,6 +73,7 @@ class Termostato:
         if not (0.0 <= valor <= 5.0):
             raise ValueError("carga_bateria debe estar entre 0.0 y 5.0")
         self._carga_bateria = valor
+        self._guardar_estado()
 
     @property
     def estado_climatizador(self):
@@ -79,6 +84,7 @@ class Termostato:
     def estado_climatizador(self, valor):
         """Establece el estado del climatizador."""
         self._estado_climatizador = str(valor)
+        self._guardar_estado()
 
     @property
     def indicador(self):
@@ -89,6 +95,30 @@ class Termostato:
     def indicador(self, valor):
         """Establece el indicador de carga del dispositivo."""
         self._indicador = str(valor)
+        self._guardar_estado()
+
+    def _guardar_estado(self):
+        """Persiste el estado actual si hay persistidor configurado."""
+        if self._persistidor:
+            datos = {
+                'temperatura_ambiente': self._temperatura_ambiente,
+                'temperatura_deseada': self._temperatura_deseada,
+                'carga_bateria': self._carga_bateria,
+                'estado_climatizador': self._estado_climatizador,
+                'indicador': self._indicador
+            }
+            self._persistidor.guardar(datos)
+
+    def cargar_estado(self):
+        """Carga el estado desde el persistidor si existe."""
+        if self._persistidor and self._persistidor.existe():
+            datos = self._persistidor.cargar()
+            if datos:
+                self._temperatura_ambiente = datos.get('temperatura_ambiente', 20)
+                self._temperatura_deseada = datos.get('temperatura_deseada', 24)
+                self._carga_bateria = datos.get('carga_bateria', 5.0)
+                self._estado_climatizador = datos.get('estado_climatizador', 'apagado')
+                self._indicador = datos.get('indicador', 'NORMAL')
 
     def _registrar_en_historial(self, temperatura):
         """Registra una temperatura en el historial si hay repositorio configurado."""

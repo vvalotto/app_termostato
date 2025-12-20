@@ -60,3 +60,6 @@ quality/reports/quality_*.json
 quality/reports/quality_*.md
 quality/reports/quality_report_*.md
 !quality/reports/.gitkeep
+
+# Datos persistidos del termostato
+data/
