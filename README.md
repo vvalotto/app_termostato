@@ -1,17 +1,34 @@
 # App Termostato - API REST
 
-API REST Flask para gestión de un termostato. Actúa como backend proveyendo datos al frontend `webapp_termostato`.
+![Version](https://img.shields.io/badge/version-1.1.0-blue)
+![Python](https://img.shields.io/badge/python-3.8+-green)
+![Quality](https://img.shields.io/badge/quality-A-brightgreen)
+![Tests](https://img.shields.io/badge/tests-60%20passed-success)
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 
-## Descripción
+API REST Flask para gestion de un termostato. Actua como backend proveyendo datos al frontend `webapp_termostato`.
 
-Este proyecto es parte de un caso de estudio académico/didáctico que demuestra la arquitectura cliente-servidor con separación de frontend y backend.
+## Novedades v1.1.0
+
+- Documentacion interactiva Swagger UI en `/docs/`
+- 60 tests automatizados (unitarios + integracion)
+- 100% cobertura del modelo Termostato
+- Historial de temperaturas con persistencia
+- Health check mejorado con uptime y version
+- Configuracion por variables de entorno
+- Grado de calidad A (CC=1.75, MI=92.09, Pylint=8.48)
+
+## Descripcion
+
+Este proyecto es parte de un caso de estudio academico/didactico que demuestra la arquitectura cliente-servidor con separacion de frontend y backend.
 
 La API gestiona:
 - Temperatura ambiente actual
 - Temperatura deseada configurada
-- Estado del climatizador (encendido/apagado)
-- La carga de la batería
+- Estado del climatizador (encendido/apagado/enfriando/calentando)
+- Carga de la bateria
 - Indicador de carga del dispositivo
+- Historial de temperaturas
 
 ## Arquitectura
 
@@ -26,9 +43,10 @@ La API gestiona:
 ## Requisitos
 
 - Python 3.8+
-- Flask
+- Flask 3.1+
+- Dependencias en `requirements.txt`
 
-## Instalación
+## Instalacion
 
 1. Clonar el repositorio:
 ```bash
@@ -44,72 +62,130 @@ source venv/bin/activate  # En Windows: venv\Scripts\activate
 
 3. Instalar dependencias:
 ```bash
-pip install flask
+pip install -r requirements.txt
 ```
 
-## Configuración
+## Configuracion
 
-La aplicación usa variables de entorno para configuración:
+La aplicacion usa variables de entorno para configuracion:
 
-| Variable | Descripción | Valor por defecto |
+| Variable | Descripcion | Valor por defecto |
 |----------|-------------|-------------------|
 | `PORT` | Puerto del servidor | `5050` |
-| `DEBUG` | Modo debug | `True` |
+| `DEBUG` | Modo debug | `true` |
+| `VERSION` | Version de la API | `1.1.0` |
+| `TEMPERATURA_AMBIENTE_MIN` | Minimo temperatura ambiente | `0` |
+| `TEMPERATURA_AMBIENTE_MAX` | Maximo temperatura ambiente | `50` |
+| `TEMPERATURA_DESEADA_MIN` | Minimo temperatura deseada | `15` |
+| `TEMPERATURA_DESEADA_MAX` | Maximo temperatura deseada | `30` |
+| `CARGA_BATERIA_MIN` | Minimo carga bateria | `0.0` |
+| `CARGA_BATERIA_MAX` | Maximo carga bateria | `5.0` |
 
-Ejemplo de configuración:
+## Ejecucion
+
 ```bash
-export PORT=5050
-export DEBUG=True
+python run.py
 ```
 
-## Ejecución
+El servidor estara disponible en: http://localhost:5050
 
-```bash
-python app.py
-```
+## Documentacion Swagger
 
-El servidor estará disponible en: http://localhost:5050
+Accede a la documentacion interactiva en: **http://localhost:5050/docs/**
+
+Desde ahi puedes:
+- Ver todos los endpoints documentados
+- Probar cada endpoint con "Try it out"
+- Ver esquemas de request/response
+
+Especificacion OpenAPI disponible en: `/apispec.json`
 
 ## Estructura del Proyecto
 
 ```
 app_termostato/
-├── app.py                   # Punto de entrada
-├── servicios/
+├── run.py                      # Punto de entrada
+├── requirements.txt            # Dependencias
+├── pytest.ini                  # Configuracion pytest
+├── app/
 │   ├── __init__.py
-│   └── api.py               # Definición de endpoints REST
-├── general/
-│   ├── __init__.py
-│   ├── termostato.py        # Modelo de datos del termostato
-│   └── configurador.py      # Configuración (instancia singleton)
-├── PLAN_MEJORAS.md          # Plan de mejoras del proyecto
-└── README.md                # Este archivo
+│   ├── configuracion/
+│   │   ├── config.py           # Configuracion por entorno
+│   │   └── configurador.py     # Singleton del termostato
+│   ├── servicios/
+│   │   ├── api.py              # Endpoints REST + Swagger
+│   │   └── errors.py           # Manejo de errores
+│   ├── general/
+│   │   └── termostato.py       # Modelo de datos
+│   └── datos/
+│       ├── historial.py        # Repositorio historial
+│       └── persistidor.py      # Persistencia JSON
+├── tests/
+│   ├── test_termostato.py      # 33 tests unitarios
+│   └── test_api.py             # 27 tests integracion
+└── quality/
+    ├── scripts/                # Scripts de analisis
+    └── reports/                # Reportes de calidad
 ```
 
 ## API Endpoints
 
 ### Health Check
 
-| Método | Endpoint | Descripción |
+| Metodo | Endpoint | Descripcion |
 |--------|----------|-------------|
-| GET | `/comprueba/` | Verifica que el servidor responde |
+| GET | `/comprueba/` | Estado del sistema con uptime y version |
 
 **Respuesta:**
+```json
+{
+  "status": "ok",
+  "version": "1.1.0",
+  "uptime_seconds": 3600,
+  "timestamp": "2025-12-21T10:30:00"
+}
 ```
-OK!
+
+### Estado Completo
+
+| Metodo | Endpoint | Descripcion |
+|--------|----------|-------------|
+| GET | `/termostato/` | Obtiene estado completo del termostato |
+
+**Respuesta:**
+```json
+{
+  "temperatura_ambiente": 20,
+  "temperatura_deseada": 24,
+  "carga_bateria": 5.0,
+  "estado_climatizador": "apagado",
+  "indicador": "NORMAL"
+}
+```
+
+### Historial
+
+| Metodo | Endpoint | Descripcion |
+|--------|----------|-------------|
+| GET | `/termostato/historial/` | Historial de temperaturas |
+| GET | `/termostato/historial/?limite=10` | Ultimos N registros |
+
+**Respuesta:**
+```json
+{
+  "historial": [
+    {"temperatura": 25, "timestamp": "2025-12-21T10:30:00"}
+  ],
+  "total": 15
+}
 ```
 
 ### Temperatura Ambiente
 
-| Método | Endpoint | Descripción |
+| Metodo | Endpoint | Descripcion |
 |--------|----------|-------------|
 | GET | `/termostato/temperatura_ambiente/` | Obtiene temperatura ambiente |
-| POST | `/termostato/temperatura_ambiente/` | Establece temperatura ambiente |
-
-**GET Response:**
-```json
-{"temperatura_ambiente": 20}
-```
+| POST | `/termostato/temperatura_ambiente/` | Establece temperatura (0-50) |
 
 **POST Request:**
 ```json
@@ -118,81 +194,96 @@ OK!
 
 ### Temperatura Deseada
 
-| Método | Endpoint | Descripción |
+| Metodo | Endpoint | Descripcion |
 |--------|----------|-------------|
 | GET | `/termostato/temperatura_deseada/` | Obtiene temperatura deseada |
-| POST | `/termostato/temperatura_deseada/` | Establece temperatura deseada |
-
-**GET Response:**
-```json
-{"temperatura_deseada": 30}
-```
+| POST | `/termostato/temperatura_deseada/` | Establece temperatura (15-30) |
 
 **POST Request:**
 ```json
 {"deseada": 22}
 ```
 
-### Batería
+### Bateria
 
-| Método | Endpoint | Descripción                |
-|--------|----------|----------------------------|
-| GET | `/termostato/bateria/` | Obtiene carga de batería   |
-| POST | `/termostato/bateria/` | Establece carga de batería |
-
-**GET Response:**
-```json
-{"carga_bateria": 5.0}
-```
+| Metodo | Endpoint | Descripcion |
+|--------|----------|-------------|
+| GET | `/termostato/bateria/` | Obtiene carga de bateria |
+| POST | `/termostato/bateria/` | Establece carga (0.0-5.0) |
 
 **POST Request:**
 ```json
-{"bateria": 80}
+{"bateria": 3.5}
 ```
 
 ### Estado Climatizador
 
-| Método | Endpoint | Descripción |
+| Metodo | Endpoint | Descripcion |
 |--------|----------|-------------|
-| GET | `/termostato/estado_climatizador/` | Obtiene estado del climatizador |
-| POST | `/termostato/estado_climatizador/` | Establece estado del climatizador |
-
-**GET Response:**
-```json
-{"estado_climatizador": "apagado"}
-```
+| GET | `/termostato/estado_climatizador/` | Obtiene estado |
+| POST | `/termostato/estado_climatizador/` | Establece estado |
 
 **POST Request:**
 ```json
-{"climatizador": "calentando"}
+{"climatizador": "enfriando"}
 ```
+
+Valores: `apagado`, `encendido`, `enfriando`, `calentando`
 
 ### Indicador de Carga
 
-| Método | Endpoint                 | Descripción                                  |
-|--------|--------------------------|----------------------------------------------|
-| GET | `/termostato/indicador/` | Obtiene indicador de carga del dispositivo   |
-| POST | `/termostato/indicador/` | Establece indicador de carga del dispositivo |
-
-**GET Response:**
-```json
-{"indicador": "NORMAL"}
-```
+| Metodo | Endpoint | Descripcion |
+|--------|----------|-------------|
+| GET | `/termostato/indicador/` | Obtiene indicador |
+| POST | `/termostato/indicador/` | Establece indicador |
 
 **POST Request:**
 ```json
-{"indicador": "BAJA"}
+{"indicador": "BAJO"}
 ```
 
-## Códigos de Respuesta
+Valores: `NORMAL`, `BAJO`, `CRITICO`
 
-| Código | Descripción |
+## Codigos de Respuesta
+
+| Codigo | Descripcion |
 |--------|-------------|
-| 200 | OK - Petición exitosa |
+| 200 | OK - Peticion exitosa |
 | 201 | Created - Dato registrado correctamente |
-| 400 | Bad Request - Falta campo requerido en JSON |
+| 400 | Bad Request - Campo faltante o valor fuera de rango |
 | 404 | Not Found - Endpoint no encontrado |
 | 500 | Internal Server Error - Error del servidor |
+
+## Tests
+
+Ejecutar todos los tests:
+```bash
+pytest tests/ -v
+```
+
+Ejecutar con cobertura:
+```bash
+pytest tests/ --cov=app --cov-report=term-missing
+```
+
+**Estado actual:**
+- 60 tests (33 unitarios + 27 integracion)
+- 100% cobertura del modelo Termostato
+
+## Calidad de Codigo
+
+Ejecutar analisis de calidad:
+```bash
+python quality/scripts/calculate_metrics.py app/
+```
+
+**Metricas actuales (Grado A):**
+
+| Metrica | Valor | Umbral |
+|---------|-------|--------|
+| Complejidad (CC) | 1.75 | <= 10 |
+| Mantenibilidad (MI) | 92.09 | > 20 |
+| Pylint Score | 8.48/10 | >= 8.0 |
 
 ## Ejemplos con cURL
 
@@ -200,30 +291,39 @@ OK!
 # Health check
 curl http://localhost:5050/comprueba/
 
-# Obtener temperatura ambiente
-curl http://localhost:5050/termostato/temperatura_ambiente/
+# Estado completo
+curl http://localhost:5050/termostato/
+
+# Historial de temperaturas
+curl http://localhost:5050/termostato/historial/?limite=5
 
 # Establecer temperatura ambiente
 curl -X POST http://localhost:5050/termostato/temperatura_ambiente/ \
   -H "Content-Type: application/json" \
   -d '{"ambiente": 25}'
 
-# Obtener estado climatizador
-curl http://localhost:5050/termostato/estado_climatizador/
-
 # Encender climatizador
 curl -X POST http://localhost:5050/termostato/estado_climatizador/ \
   -H "Content-Type: application/json" \
-  -d '{"climatizador": "encendido"}'
-
-# Obtener indicador de carga
-curl http://localhost:5050/termostato/indicador/
-
-# Establecer indicador de carga
-curl -X POST http://localhost:5050/termostato/indicador/ \
-  -H "Content-Type: application/json" \
-  -d '{"indicador": "BAJA"}'
+  -d '{"climatizador": "calentando"}'
 ```
+
+## Changelog
+
+### v1.1.0 (2025-12-21)
+- **TER-14**: Documentacion OpenAPI/Swagger en `/docs/`
+- **TER-13**: Tests de integracion de API (27 tests)
+- **TER-12**: Tests unitarios del modelo (33 tests, 100% cobertura)
+- **TER-16**: Health check mejorado con uptime y version
+- **TER-15**: Configuracion por variables de entorno
+- **TER-07**: Persistencia en archivo JSON
+- Ambiente de calidad con metricas CC, MI, Pylint
+- Correccion de import circular
+
+### v1.0.0
+- Version inicial
+- Endpoints basicos de termostato
+- Modelo de datos con validacion
 
 ## Proyecto Relacionado
 
@@ -232,4 +332,4 @@ Este backend es consumido por:
 
 ## Licencia
 
-Proyecto académico/didáctico para el curso ISSE.
+Proyecto academico/didactico para el curso ISSE.
