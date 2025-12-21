@@ -8,7 +8,8 @@ from datetime import datetime
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from app.configuracion import Configurador, Config
+from app.configuracion import Config
+from app.configuracion.configurador import Configurador
 from app.servicios.errors import error_response
 
 # Configurar logging
