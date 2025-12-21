@@ -11,7 +11,7 @@ class Config:
     # Servidor
     PORT = int(os.getenv('PORT', 5050))
     DEBUG = os.getenv('DEBUG', 'true').lower() == 'true'
-    VERSION = os.getenv('VERSION', '1.0.0')
+    VERSION = os.getenv('VERSION', '1.1.0')
 
     # Valores iniciales del termostato
     TEMPERATURA_AMBIENTE_INICIAL = int(os.getenv('TEMPERATURA_AMBIENTE_INICIAL', 20))
