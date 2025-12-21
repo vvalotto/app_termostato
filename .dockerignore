@@ -1,0 +1,41 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Tests y calidad
+tests/
+quality/
+pytest.ini
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Documentacion de desarrollo
+docs/
+*.md
+!README.md
+
+# Claude
+.claude/
+
+# Archivos temporales
+*.log
+*.tmp
+data/*.json
