@@ -89,6 +89,74 @@ python run.py
 
 El servidor estara disponible en: http://localhost:5050
 
+## Despliegue en Google Cloud Platform
+
+La aplicacion esta preparada para desplegarse en **Google Cloud Run**.
+
+### Requisitos previos
+
+1. Cuenta de Google Cloud Platform con facturacion habilitada
+2. Google Cloud SDK instalado ([instrucciones](https://cloud.google.com/sdk/docs/install))
+3. Autenticacion configurada:
+```bash
+gcloud auth login
+```
+
+### Crear proyecto (primera vez)
+
+```bash
+# Crear nuevo proyecto
+gcloud projects create app-termostato-2025 --name="App Termostato"
+
+# Configurar como proyecto activo
+gcloud config set project app-termostato-2025
+
+# Vincular cuenta de facturacion
+gcloud billing accounts list
+gcloud billing projects link app-termostato-2025 --billing-account=ID_CUENTA
+
+# Habilitar APIs necesarias
+gcloud services enable run.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com
+```
+
+### Desplegar
+
+```bash
+gcloud run deploy app-termostato \
+  --source . \
+  --region=us-central1 \
+  --allow-unauthenticated \
+  --project=app-termostato-2025
+```
+
+### URL del servicio
+
+Una vez desplegado, el servicio estara disponible en:
+```
+https://app-termostato-XXXXXXXXXX.us-central1.run.app
+```
+
+### Comandos utiles post-despliegue
+
+```bash
+# Ver logs en tiempo real
+gcloud run logs read --service=app-termostato --region=us-central1 --project=app-termostato-2025
+
+# Ver estado del servicio
+gcloud run services describe app-termostato --region=us-central1 --project=app-termostato-2025
+
+# Listar revisiones
+gcloud run revisions list --service=app-termostato --region=us-central1 --project=app-termostato-2025
+```
+
+### Despliegue continuo (opcional)
+
+Para configurar despliegue automatico desde GitHub:
+1. Ir a [Cloud Run Console](https://console.cloud.google.com/run)
+2. Seleccionar el servicio `app-termostato`
+3. Clic en "Set up continuous deployment"
+4. Conectar repositorio de GitHub y seleccionar rama
+
 ## Documentacion Swagger
 
 Accede a la documentacion interactiva en: **http://localhost:5050/docs/**
