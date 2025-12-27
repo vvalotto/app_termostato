@@ -16,7 +16,7 @@ class Termostato:
         temperatura_deseada: Temperatura objetivo configurada (default: 30)
         carga_bateria: Carga de la batería (default: 5.0)
         estado_climatizador: Estado del climatizador (default: "apagado")
-        indicador: Indicador de carga del dispositivo (default: "NORMAL")
+        indicador: Indicador calculado segun nivel de bateria (NORMAL/BAJO/CRITICO)
     """
 
     def __init__(self, historial_repositorio=None, persistidor=None,
@@ -37,7 +37,6 @@ class Termostato:
         self._temperatura_deseada = temperatura_deseada_inicial
         self._carga_bateria = carga_bateria_inicial
         self._estado_climatizador = "apagado"
-        self._indicador = "NORMAL"
 
     @property
     def temperatura_ambiente(self):
@@ -104,14 +103,16 @@ class Termostato:
 
     @property
     def indicador(self):
-        """Obtiene el indicador de carga del dispositivo."""
-        return self._indicador
+        """Calcula el indicador de carga basado en el nivel de bateria.
 
-    @indicador.setter
-    def indicador(self, valor):
-        """Establece el indicador de carga del dispositivo."""
-        self._indicador = str(valor)
-        self._guardar_estado()
+        Returns:
+            str: NORMAL si bateria > 3.5, BAJO si >= 2.5, CRITICO si < 2.5
+        """
+        if self._carga_bateria > Config.INDICADOR_UMBRAL_NORMAL:
+            return "NORMAL"
+        if self._carga_bateria >= Config.INDICADOR_UMBRAL_BAJO:
+            return "BAJO"
+        return "CRITICO"
 
     def _guardar_estado(self):
         """Persiste el estado actual si hay persistidor configurado."""
@@ -121,7 +122,7 @@ class Termostato:
                 'temperatura_deseada': self._temperatura_deseada,
                 'carga_bateria': self._carga_bateria,
                 'estado_climatizador': self._estado_climatizador,
-                'indicador': self._indicador
+                'indicador': self.indicador
             }
             self._persistidor.guardar(datos)
 
@@ -134,7 +135,7 @@ class Termostato:
                 self._temperatura_deseada = datos.get('temperatura_deseada', 24)
                 self._carga_bateria = datos.get('carga_bateria', 5.0)
                 self._estado_climatizador = datos.get('estado_climatizador', 'apagado')
-                self._indicador = datos.get('indicador', 'NORMAL')
+                # indicador se calcula dinamicamente basado en carga_bateria
 
     def _registrar_en_historial(self, temperatura):
         """Registra una temperatura en el historial si hay repositorio configurado."""

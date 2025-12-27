@@ -1,22 +1,19 @@
 # App Termostato - API REST
 
-![Version](https://img.shields.io/badge/version-1.1.0-blue)
+![Version](https://img.shields.io/badge/version-1.2.0-blue)
 ![Python](https://img.shields.io/badge/python-3.8+-green)
 ![Quality](https://img.shields.io/badge/quality-A-brightgreen)
-![Tests](https://img.shields.io/badge/tests-60%20passed-success)
+![Tests](https://img.shields.io/badge/tests-62%20passed-success)
 ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 
 API REST Flask para gestion de un termostato. Actua como backend proveyendo datos al frontend `webapp_termostato`.
 
-## Novedades v1.1.0
+## Novedades v1.2.0
 
-- Documentacion interactiva Swagger UI en `/docs/`
-- 60 tests automatizados (unitarios + integracion)
-- 100% cobertura del modelo Termostato
-- Historial de temperaturas con persistencia
-- Health check mejorado con uptime y version
-- Configuracion por variables de entorno
-- Grado de calidad A (CC=1.75, MI=92.09, Pylint=8.48)
+- **Indicador de bateria automatico**: El indicador se calcula dinamicamente segun el nivel de bateria (NORMAL/BAJO/CRITICO)
+- Umbrales de bateria configurables por variables de entorno
+- 62 tests automatizados (35 unitarios + 27 integracion)
+- Grado de calidad A (CC=1.75, MI=92.21, Pylint=8.41)
 
 ## Descripcion
 
@@ -80,6 +77,8 @@ La aplicacion usa variables de entorno para configuracion:
 | `TEMPERATURA_DESEADA_MAX` | Maximo temperatura deseada | `30` |
 | `CARGA_BATERIA_MIN` | Minimo carga bateria | `0.0` |
 | `CARGA_BATERIA_MAX` | Maximo carga bateria | `5.0` |
+| `INDICADOR_UMBRAL_NORMAL` | Bateria > este valor = NORMAL | `3.5` |
+| `INDICADOR_UMBRAL_BAJO` | Bateria >= este valor = BAJO | `2.5` |
 
 ## Ejecucion
 
@@ -298,19 +297,21 @@ app_termostato/
 
 Valores: `apagado`, `encendido`, `enfriando`, `calentando`
 
-### Indicador de Carga
+### Indicador de Carga (Solo lectura)
 
 | Metodo | Endpoint | Descripcion |
 |--------|----------|-------------|
-| GET | `/termostato/indicador/` | Obtiene indicador |
-| POST | `/termostato/indicador/` | Establece indicador |
+| GET | `/termostato/indicador/` | Obtiene indicador calculado |
 
-**POST Request:**
-```json
-{"indicador": "BAJO"}
-```
+El indicador se calcula automaticamente segun el nivel de bateria:
 
-Valores: `NORMAL`, `BAJO`, `CRITICO`
+| Carga Bateria | Indicador |
+|---------------|-----------|
+| > 3.5         | `NORMAL`  |
+| >= 2.5 y <= 3.5 | `BAJO`  |
+| < 2.5         | `CRITICO` |
+
+Los umbrales son configurables via variables de entorno.
 
 ## Codigos de Respuesta
 
@@ -335,7 +336,7 @@ pytest tests/ --cov=app --cov-report=term-missing
 ```
 
 **Estado actual:**
-- 60 tests (33 unitarios + 27 integracion)
+- 62 tests (35 unitarios + 27 integracion)
 - 100% cobertura del modelo Termostato
 
 ## Calidad de Codigo
@@ -350,8 +351,8 @@ python quality/scripts/calculate_metrics.py app/
 | Metrica | Valor | Umbral |
 |---------|-------|--------|
 | Complejidad (CC) | 1.75 | <= 10 |
-| Mantenibilidad (MI) | 92.09 | > 20 |
-| Pylint Score | 8.48/10 | >= 8.0 |
+| Mantenibilidad (MI) | 92.21 | > 20 |
+| Pylint Score | 8.41/10 | >= 8.0 |
 
 ## Ejemplos con cURL
 
@@ -378,20 +379,7 @@ curl -X POST http://localhost:5050/termostato/estado_climatizador/ \
 
 ## Changelog
 
-### v1.1.0 (2025-12-21)
-- **TER-14**: Documentacion OpenAPI/Swagger en `/docs/`
-- **TER-13**: Tests de integracion de API (27 tests)
-- **TER-12**: Tests unitarios del modelo (33 tests, 100% cobertura)
-- **TER-16**: Health check mejorado con uptime y version
-- **TER-15**: Configuracion por variables de entorno
-- **TER-07**: Persistencia en archivo JSON
-- Ambiente de calidad con metricas CC, MI, Pylint
-- Correccion de import circular
-
-### v1.0.0
-- Version inicial
-- Endpoints basicos de termostato
-- Modelo de datos con validacion
+Ver [CHANGELOG.md](CHANGELOG.md) para historial completo de cambios.
 
 ## Proyecto Relacionado
 
