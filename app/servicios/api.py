@@ -407,45 +407,22 @@ def obtener_estado_climatizador():
         return jsonify({'estado_climatizador': termostato.estado_climatizador})
 
 
-@app_api.route("/termostato/indicador/", methods=["GET", "POST"])
+@app_api.route("/termostato/indicador/", methods=["GET"])
 def obtener_indicador():
-    """Gestiona el indicador de carga.
+    """Obtiene el indicador de carga (calculado segun nivel de bateria).
     ---
     tags:
       - Termostato
-    parameters:
-      - name: body
-        in: body
-        required: false
-        schema:
-          type: object
-          properties:
-            indicador:
-              type: string
-              description: Indicador de carga (NORMAL, BAJO, CRITICO)
-              example: NORMAL
     responses:
       200:
-        description: Indicador actual (GET)
+        description: Indicador actual calculado segun carga de bateria
         schema:
           type: object
           properties:
             indicador:
               type: string
+              description: NORMAL (>3.5), BAJO (2.5-3.5), CRITICO (<2.5)
               example: NORMAL
-      201:
-        description: Indicador actualizado (POST)
-      400:
-        description: Campo requerido faltante
     """
-    if request.method == 'POST':
-        datos = request.get_json()
-        if not datos or "indicador" not in datos:
-            logger.warning("POST /termostato/indicador/ - Campo requerido faltante")
-            return error_response(400, "Campo requerido faltante", "Se requiere campo 'indicador'")
-        termostato.indicador = datos["indicador"]
-        logger.info("POST /termostato/indicador/ -> 201")
-        return jsonify({'mensaje': 'dato registrado'}), 201
-    else:
-        logger.info("GET /termostato/indicador/ -> 200")
-        return jsonify({'indicador': termostato.indicador})
+    logger.info("GET /termostato/indicador/ -> 200")
+    return jsonify({'indicador': termostato.indicador})

@@ -200,26 +200,54 @@ class TestEstadoClimatizador:
 
 
 class TestIndicador:
-    """Tests para la propiedad indicador."""
+    """Tests para la propiedad indicador (TER-19: calculo automatico)."""
 
-    def test_indicador_valores(self):
-        """Verifica que se pueden establecer diferentes valores de indicador."""
-        termostato = Termostato()
-
-        termostato.indicador = "NORMAL"
+    def test_indicador_normal_bateria_alta(self):
+        """Verifica que indicador es NORMAL cuando bateria > 3.5."""
+        termostato = Termostato(carga_bateria_inicial=5.0)
         assert termostato.indicador == "NORMAL"
 
-        termostato.indicador = "BAJO"
+        termostato.carga_bateria = 4.0
+        assert termostato.indicador == "NORMAL"
+
+        termostato.carga_bateria = 3.51
+        assert termostato.indicador == "NORMAL"
+
+    def test_indicador_bajo_bateria_media(self):
+        """Verifica que indicador es BAJO cuando bateria >= 2.5 y <= 3.5."""
+        termostato = Termostato(carga_bateria_inicial=3.5)
         assert termostato.indicador == "BAJO"
 
-        termostato.indicador = "CRITICO"
+        termostato.carga_bateria = 3.0
+        assert termostato.indicador == "BAJO"
+
+        termostato.carga_bateria = 2.5
+        assert termostato.indicador == "BAJO"
+
+    def test_indicador_critico_bateria_baja(self):
+        """Verifica que indicador es CRITICO cuando bateria < 2.5."""
+        termostato = Termostato(carga_bateria_inicial=2.49)
         assert termostato.indicador == "CRITICO"
 
-    def test_indicador_conversion_a_string(self):
-        """Verifica que valores no string se convierten a string."""
-        termostato = Termostato()
-        termostato.indicador = 456
-        assert termostato.indicador == "456"
+        termostato.carga_bateria = 1.0
+        assert termostato.indicador == "CRITICO"
+
+        termostato.carga_bateria = 0.0
+        assert termostato.indicador == "CRITICO"
+
+    def test_indicador_cambio_dinamico(self):
+        """Verifica que indicador cambia automaticamente al cambiar bateria."""
+        termostato = Termostato(carga_bateria_inicial=5.0)
+        assert termostato.indicador == "NORMAL"
+
+        termostato.carga_bateria = 3.0
+        assert termostato.indicador == "BAJO"
+
+        termostato.carga_bateria = 1.0
+        assert termostato.indicador == "CRITICO"
+
+        termostato.carga_bateria = 4.0
+        assert termostato.indicador == "NORMAL"
 
 
 class TestInicializacionPersonalizada:
@@ -258,9 +286,8 @@ class TestPersistencia:
         mock_persistidor.cargar.return_value = {
             'temperatura_ambiente': 30,
             'temperatura_deseada': 25,
-            'carga_bateria': 4.0,
-            'estado_climatizador': 'enfriando',
-            'indicador': 'BAJO'
+            'carga_bateria': 3.0,
+            'estado_climatizador': 'enfriando'
         }
 
         termostato = Termostato(persistidor=mock_persistidor)
@@ -268,8 +295,9 @@ class TestPersistencia:
 
         assert termostato.temperatura_ambiente == 30
         assert termostato.temperatura_deseada == 25
-        assert termostato.carga_bateria == 4.0
+        assert termostato.carga_bateria == 3.0
         assert termostato.estado_climatizador == 'enfriando'
+        # indicador se calcula dinamicamente segun carga_bateria
         assert termostato.indicador == 'BAJO'
 
     def test_cargar_estado_sin_persistidor(self):

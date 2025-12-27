@@ -212,7 +212,7 @@ class TestEstadoClimatizador:
 
 
 class TestIndicador:
-    """Tests para el endpoint /termostato/indicador/."""
+    """Tests para el endpoint /termostato/indicador/ (TER-19: solo lectura)."""
 
     def test_get_indicador(self, client):
         """Verifica que GET retorna el indicador."""
@@ -220,22 +220,32 @@ class TestIndicador:
         assert response.status_code == 200
         data = response.get_json()
         assert 'indicador' in data
+        assert data['indicador'] in ['NORMAL', 'BAJO', 'CRITICO']
 
-    def test_post_indicador_valido(self, client):
-        """Verifica que POST actualiza el indicador."""
+    def test_indicador_calculado_segun_bateria(self, client):
+        """Verifica que el indicador se calcula segun el nivel de bateria."""
+        # Bateria alta -> NORMAL
+        client.post('/termostato/bateria/', json={'bateria': 4.0})
+        response = client.get('/termostato/indicador/')
+        assert response.get_json()['indicador'] == 'NORMAL'
+
+        # Bateria media -> BAJO
+        client.post('/termostato/bateria/', json={'bateria': 3.0})
+        response = client.get('/termostato/indicador/')
+        assert response.get_json()['indicador'] == 'BAJO'
+
+        # Bateria baja -> CRITICO
+        client.post('/termostato/bateria/', json={'bateria': 1.0})
+        response = client.get('/termostato/indicador/')
+        assert response.get_json()['indicador'] == 'CRITICO'
+
+    def test_post_indicador_no_permitido(self, client):
+        """Verifica que POST no esta permitido (indicador es solo lectura)."""
         response = client.post(
             '/termostato/indicador/',
             json={'indicador': 'BAJO'}
         )
-        assert response.status_code == 201
-
-    def test_post_indicador_sin_campo(self, client):
-        """Verifica que POST sin campo 'indicador' retorna error 400."""
-        response = client.post(
-            '/termostato/indicador/',
-            json={'valor': 'BAJO'}
-        )
-        assert response.status_code == 400
+        assert response.status_code == 405  # Method Not Allowed
 
 
 class TestHistorial:

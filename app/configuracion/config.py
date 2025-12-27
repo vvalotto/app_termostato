@@ -11,7 +11,7 @@ class Config:
     # Servidor
     PORT = int(os.getenv('PORT', 5050))
     DEBUG = os.getenv('DEBUG', 'true').lower() == 'true'
-    VERSION = os.getenv('VERSION', '1.1.0')
+    VERSION = os.getenv('VERSION', '1.2.0')
 
     # Valores iniciales del termostato
     TEMPERATURA_AMBIENTE_INICIAL = int(os.getenv('TEMPERATURA_AMBIENTE_INICIAL', 20))
@@ -29,3 +29,7 @@ class Config:
     # Rangos de validacion - Bateria
     CARGA_BATERIA_MIN = float(os.getenv('CARGA_BATERIA_MIN', 0.0))
     CARGA_BATERIA_MAX = float(os.getenv('CARGA_BATERIA_MAX', 5.0))
+
+    # Umbrales para indicador de bateria (TER-19)
+    INDICADOR_UMBRAL_NORMAL = float(os.getenv('INDICADOR_UMBRAL_NORMAL', 3.5))
+    INDICADOR_UMBRAL_BAJO = float(os.getenv('INDICADOR_UMBRAL_BAJO', 2.5))
