@@ -29,12 +29,9 @@ La API gestiona:
 
 ## Arquitectura
 
-```
-┌─────────────────────┐         ┌─────────────────────┐
-│  webapp_termostato  │  HTTP   │   app_termostato    │
-│     (Frontend)      │ ──────► │     (Backend)       │
-│     Puerto 5001     │  REST   │     Puerto 5050     │
-└─────────────────────┘         └─────────────────────┘
+```mermaid
+graph LR
+    Frontend["webapp_termostato<br/>(Frontend)<br/>Puerto 5001"] -- HTTP REST --> Backend["app_termostato<br/>(Backend)<br/>Puerto 5050"]
 ```
 
 ## Requisitos
