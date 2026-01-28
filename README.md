@@ -34,7 +34,7 @@ graph LR
     Frontend["webapp_termostato<br/>(Frontend)<br/>Puerto 5001"] -- HTTP REST --> Backend["app_termostato<br/>(Backend)<br/>Puerto 5050"]
 ```
 
-## Requisitos
+## Requerimientos
 
 - Python 3.8+
 - Flask 3.1+
