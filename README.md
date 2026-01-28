@@ -8,6 +8,10 @@
 
 API REST Flask para gestion de un termostato. Actua como backend proveyendo datos al frontend `webapp_termostato`.
 
+**🚀 Despliegue en Google Cloud Platform:**
+- **Backend (API):** https://app-termostato-1090421346746.us-central1.run.app/
+- **Frontend (Web):** https://webapp-termostato-1090421346746.us-central1.run.app/
+
 ## Novedades v1.2.0
 
 - **Indicador de bateria automatico**: El indicador se calcula dinamicamente segun el nivel de bateria (NORMAL/BAJO/CRITICO)
@@ -381,7 +385,7 @@ Ver [CHANGELOG.md](CHANGELOG.md) para historial completo de cambios.
 ## Proyecto Relacionado
 
 Este backend es consumido por:
-- **webapp_termostato**: Frontend web que muestra los datos del termostato
+- **webapp_termostato**: Frontend web que muestra los datos del termostato. Disponible en: https://webapp-termostato-1090421346746.us-central1.run.app/
 
 ## Licencia
 
