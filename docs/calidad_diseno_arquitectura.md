@@ -75,3 +75,4 @@ La "Secuencia Principal" es el equilibrio ideal entre estabilidad y abstracción
 3.  **Formalizar Interfaces:** Aunque Python es dinámico, definir clases base abstractas (ABC) para `Persistidor` y `Repositorio` haría más explícito el cumplimiento de DIP y OCP.
 
 Fecha: 28/01/2026
+Autor: Victor O. Valotto
