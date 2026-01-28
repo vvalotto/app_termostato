@@ -73,3 +73,5 @@ La "Secuencia Principal" es el equilibrio ideal entre estabilidad y abstracción
 1.  **Refactorizar `api.py`:** Dividir el monolito de la API en **Blueprints** de Flask (ej. `health_bp`, `termostato_bp`) para mejorar la cohesión y el SRP.
 2.  **Eliminar Service Locator:** Reemplazar el uso estático de `Configurador.termostato` en los endpoints por un patrón de **Inyección de Dependencias** real (pasando el servicio a los blueprints o usando un contenedor de DI).
 3.  **Formalizar Interfaces:** Aunque Python es dinámico, definir clases base abstractas (ABC) para `Persistidor` y `Repositorio` haría más explícito el cumplimiento de DIP y OCP.
+
+Fecha: 28/01/2026

@@ -44,7 +44,7 @@ jobs:
           cp main_repo/docs/historias_de_usuario.md wiki_repo/Historias de Usuario.md
           
           # 5. Calidad de Diseño
-          cp main_repo/docs/calidad_diseño_arquitectura.md wiki_repo/Reporte de Calidad de Diseño.md
+          cp main_repo/docs/calidad_diseno_arquitectura.md wiki_repo/Reporte de Calidad de Diseño.md
 
       - name: Commit y Push a la Wiki
         run: |
