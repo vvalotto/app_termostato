@@ -3,11 +3,10 @@ name: Sincronizar Wiki
 on:
   push:
     branches:
-      - main
-    # Comentamos los paths temporalmente para depurar
-    # paths:
-    #   - 'README.md'
-    #   - 'docs/**'
+      - master
+    paths:
+      - 'README.md'
+      - 'docs/**'
   # Habilitamos ejecución manual para probar desde la web de GitHub
   workflow_dispatch:
 
