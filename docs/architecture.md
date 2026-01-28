@@ -106,6 +106,41 @@ Este nivel se refiere directamente al código fuente. A continuación se detalla
 
 ## 6. Despliegue e Infraestructura
 
+### 5.3 Diagrama de Clases
+
+El siguiente diagrama muestra las clases principales del sistema y su interacción, alineándose con el diagrama de componentes.
+
+```mermaid
+classDiagram
+    direction LR
+
+    class API_Controller {
+        <<Servicio>>
+        + get_termostato()
+        + update_temperatura_deseada()
+        + ...
+    }
+
+    class Termostato {
+        <<Dominio>>
+        - temperatura_ambiente: int
+        - temperatura_deseada: int
+        - carga_bateria: float
+        - estado_climatizador: str
+    }
+
+    class Persistidor { <<Datos>> }
+    class Historial { <<Datos>> }
+    class Config { <<Configuracion>> }
+
+    API_Controller ..> Termostato : "Gestiona"
+    Termostato ..> Config : "Usa para validación"
+    Termostato ..> Persistidor : "Delega persistencia"
+    Termostato ..> Historial : "Registra cambios"
+```
+
+## 6. Despliegue e Infraestructura
+
 *   **Docker**: La aplicación está contenedorizada para portabilidad.
 *   **Google Cloud Run**: Configurada para despliegue serverless, escalando a 0 cuando no hay tráfico.
 *   **Variables de Entorno**: Toda la configuración (puertos, límites, umbrales) se inyecta vía variables de entorno (12-Factor App).

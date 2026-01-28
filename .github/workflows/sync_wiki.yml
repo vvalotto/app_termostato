@@ -35,7 +35,7 @@ jobs:
           cp main_repo/README.md wiki_repo/Home.md
           
           # 2. Aquí puedes agregar más archivos específicos que quieras mover
-          # cp main_repo/docs/arquitectura.md wiki_repo/Arquitectura.md
+          cp main_repo/docs/arquitectura.md wiki_repo/Arquitectura.md
 
       - name: Commit y Push a la Wiki
         run: |
