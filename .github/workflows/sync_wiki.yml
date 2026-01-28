@@ -40,6 +40,9 @@ jobs:
           # 3. Reporte de calidad
           cp main_repo/docs/quality_report_20251221.md wiki_repo/Reporte_Calidad.md
 
+          # 3. Historias de Usuario
+          cp main_repo/docs/historias_de_usuario.md wiki_repo/Historias_Usuario.md
+
       - name: Commit y Push a la Wiki
         run: |
           cd wiki_repo

@@ -1,5 +1,9 @@
 # Historias de Usuario - app_termostato
 
+## Sitio del proyecto en Jira:
+App_Termostato: https://vvalotto-1760995393359.atlassian.net/jira/software/projects/TER/summary
+
+
 ## Resumen del Backlog
 
 | ID | Título | Tipo | Prioridad | Story Points |
