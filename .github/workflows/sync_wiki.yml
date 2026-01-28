@@ -34,8 +34,11 @@ jobs:
           # 1. Sincronizar README.md con la Home de la Wiki
           cp main_repo/README.md wiki_repo/Home.md
           
-          # 2. Aquí puedes agregar más archivos específicos que quieras mover
+          # 2. Sincronizar Documento de Arquitectura
           cp main_repo/docs/arquitectura.md wiki_repo/Arquitectura.md
+          
+          # 3. Reporte de calidad
+          cp main_repo/docs/quality_report_20251221.md wiki_repo/Reporte_Calidad.md
 
       - name: Commit y Push a la Wiki
         run: |
