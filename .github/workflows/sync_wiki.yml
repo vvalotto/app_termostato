@@ -38,10 +38,13 @@ jobs:
           cp main_repo/docs/arquitectura.md wiki_repo/Arquitectura.md
           
           # 3. Reporte de calidad
-          cp main_repo/docs/quality_report_20251221.md wiki_repo/Reporte_Calidad.md
+          cp main_repo/docs/quality_report_20251221.md wiki_repo/Reporte de Calidad.md
 
-          # 3. Historias de Usuario
-          cp main_repo/docs/historias_de_usuario.md wiki_repo/Historias_Usuario.md
+          # 4. Historias de Usuario
+          cp main_repo/docs/historias_de_usuario.md wiki_repo/Historias de Usuario.md
+          
+          # 5. Calidad de Diseño
+          cp main/analisis_calidad_diseño_arquitectura.md wiki_repo/Reporte de Calidad de Diseño.md
 
       - name: Commit y Push a la Wiki
         run: |
