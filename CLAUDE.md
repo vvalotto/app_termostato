@@ -169,3 +169,89 @@ Los umbrales se configuran en `.claude/settings.json`:
 Ultima ejecucion (2025-12-19):
 - **app/general/**: Grado A (CC=1.08, MI=100.0, Pylint=9.67)
 - **app/servicios/**: Grado A (CC=2.88, MI=83.3, Pylint=8.6)
+
+## Documentación de Mantenimiento
+
+Este proyecto mantiene documentación estructurada en la carpeta `docs/` para análisis, mantenimiento y desarrollo.
+
+### Estructura de Documentación
+
+```
+docs/
+├── analisis/                    # Análisis y auditorías técnicas
+│   ├── 2026-02-06_analisis_diseno.md
+│   └── README.md
+├── mantenimiento/               # Gestión de deuda técnica
+│   ├── historias_usuario/       # HUs de refactoring (Jira-ready)
+│   │   ├── HU-001_refactor_termostato.md
+│   │   ├── HU-002_eliminar_singleton.md
+│   │   └── ... (8 HUs totales)
+│   ├── decisiones_arquitectura/ # ADRs
+│   │   └── ADR-001_factory_vs_singleton.md
+│   └── README.md
+└── desarrollo/                  # Guías para contributors
+    └── README.md
+```
+
+### Análisis de Diseño
+
+**Último análisis:** 2026-02-06
+**Enfoque:** Principios SOLID, Cohesión, Acoplamiento, Code Smells
+**Calificación:** C+ (6.5/10)
+
+**Acceso rápido:**
+- [📄 Análisis completo](docs/analisis/2026-02-06_analisis_diseno.md)
+- [📊 Índice de análisis](docs/analisis/README.md)
+
+**Hallazgos principales:**
+- 🔴 God Object en clase Termostato (6 responsabilidades)
+- 🔴 Singleton anti-pattern en Configurador
+- 🔴 Duplicación masiva en endpoints (~200 LOC)
+
+### Deuda Técnica
+
+**Epic activa:** Refactorización Deuda Técnica - Diseño
+**Total:** 8 Historias de Usuario | ~50 Story Points
+
+**Distribución por prioridad:**
+- 🔴 **Alta:** 3 HUs (21 SP) - Refactorizar Termostato, Eliminar Singleton, Eliminar duplicación
+- 🟡 **Media:** 3 HUs (6 SP) - Validaciones, imports, Swagger config
+- 🟢 **Baja:** 2 HUs (13 SP) - Strategy Pattern, DI Container
+
+**Acceso rápido:**
+- [📋 Roadmap completo](docs/mantenimiento/README.md)
+- [📝 Historias de usuario](docs/mantenimiento/historias_usuario/)
+- [🏛️ Decisiones arquitectónicas (ADRs)](docs/mantenimiento/decisiones_arquitectura/)
+
+### Sincronización con Jira
+
+Las historias de usuario en `docs/mantenimiento/historias_usuario/` están en formato **Jira-ready**:
+
+1. Crear Epic en Jira: "Refactorización Deuda Técnica - Diseño"
+2. Migrar HUs de Markdown → Jira (copiar contenido)
+3. Actualizar campo `Jira: TBD` en archivos locales con el ID asignado
+4. Mantener estado sincronizado durante desarrollo
+
+**Formato de HU:** Cada archivo `.md` contiene:
+- Historia de usuario (Como... Quiero... Para...)
+- Criterios de aceptación
+- Tareas técnicas detalladas
+- Contexto y referencias al análisis
+- Escenarios de testing
+- Métricas antes/después
+- Riesgos y mitigaciones
+- Definición de Done
+
+### Workflows Recomendados
+
+**Al trabajar en refactorización:**
+1. Consultar [análisis de diseño](docs/analisis/2026-02-06_analisis_diseno.md) para contexto
+2. Revisar HU correspondiente en [historias_usuario/](docs/mantenimiento/historias_usuario/)
+3. Seguir criterios de aceptación y tareas técnicas
+4. Ejecutar `/quality-check` antes de commit
+5. Actualizar estado de HU al completar
+
+**Al tomar decisiones arquitectónicas:**
+1. Consultar [ADRs existentes](docs/mantenimiento/decisiones_arquitectura/)
+2. Si es decisión nueva, crear ADR-XXX.md siguiendo formato de ADR-001
+3. Referenciar ADR desde HU correspondiente
