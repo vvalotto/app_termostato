@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(pylint:*)"
+      "Bash(pylint:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ]
   }
 }
