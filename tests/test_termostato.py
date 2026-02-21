@@ -191,12 +191,35 @@ class TestEstadoClimatizador:
         termostato.estado_climatizador = "apagado"
         assert termostato.estado_climatizador == "apagado"
 
-    def test_estado_climatizador_conversion_a_string(self):
-        """Verifica que valores no string se convierten a string."""
+    def test_estado_climatizador_invalido_lanza_error(self):
+        """Verifica que un estado inválido lanza ValueError."""
         termostato = Termostato()
-        termostato.estado_climatizador = 123
-        assert termostato.estado_climatizador == "123"
-        assert isinstance(termostato.estado_climatizador, str)
+        with pytest.raises(ValueError, match="estado_climatizador debe ser uno de"):
+            termostato.estado_climatizador = "modo_turbo"
+
+    def test_estado_climatizador_vacio_lanza_error(self):
+        """Verifica que un estado vacío lanza ValueError."""
+        termostato = Termostato()
+        with pytest.raises(ValueError):
+            termostato.estado_climatizador = ""
+
+    def test_estado_climatizador_numerico_lanza_error(self):
+        """Verifica que un valor numérico (no válido como estado) lanza ValueError."""
+        termostato = Termostato()
+        with pytest.raises(ValueError):
+            termostato.estado_climatizador = 123
+
+    def test_estado_climatizador_case_insensitive(self):
+        """Verifica que la validación es case-insensitive."""
+        termostato = Termostato()
+        termostato.estado_climatizador = "APAGADO"
+        assert termostato.estado_climatizador == "apagado"
+
+    def test_estado_climatizador_con_espacios(self):
+        """Verifica que se eliminan espacios al inicio/fin."""
+        termostato = Termostato()
+        termostato.estado_climatizador = "  encendido  "
+        assert termostato.estado_climatizador == "encendido"
 
 
 class TestIndicador:

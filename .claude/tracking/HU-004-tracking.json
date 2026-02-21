@@ -1,0 +1,215 @@
+{
+  "metadata": {
+    "us_id": "HU-004",
+    "us_title": "Agregar validacion a estado_climatizador",
+    "us_points": 2,
+    "producto": "app_termostato",
+    "tracking_version": "1.0"
+  },
+  "timeline": {
+    "started_at": "2026-02-21T20:47:53.266604+00:00",
+    "completed_at": "2026-02-21T20:52:55.056192+00:00",
+    "total_elapsed_seconds": 301,
+    "effective_seconds": 301,
+    "paused_seconds": 0
+  },
+  "phases": [
+    {
+      "phase_number": 0,
+      "phase_name": "Validacion de Contexto",
+      "started_at": "2026-02-21T20:47:53.270054+00:00",
+      "completed_at": "2026-02-21T20:49:32.635047+00:00",
+      "elapsed_seconds": 99,
+      "status": "completed",
+      "tasks": [],
+      "auto_approved": true,
+      "user_approval_time_seconds": 0
+    },
+    {
+      "phase_number": 1,
+      "phase_name": "Generacion de Escenarios BDD",
+      "started_at": "2026-02-21T20:49:32.638814+00:00",
+      "completed_at": "2026-02-21T20:49:32.640054+00:00",
+      "elapsed_seconds": 0,
+      "status": "completed",
+      "tasks": [],
+      "auto_approved": true,
+      "user_approval_time_seconds": 0
+    },
+    {
+      "phase_number": 2,
+      "phase_name": "Plan de Implementacion",
+      "started_at": "2026-02-21T20:49:32.641386+00:00",
+      "completed_at": null,
+      "elapsed_seconds": 0,
+      "status": "in_progress",
+      "tasks": [],
+      "auto_approved": true,
+      "user_approval_time_seconds": 0
+    },
+    {
+      "phase_number": 3,
+      "phase_name": "Implementacion",
+      "started_at": "2026-02-21T20:50:10.868569+00:00",
+      "completed_at": "2026-02-21T20:52:55.024577+00:00",
+      "elapsed_seconds": 164,
+      "status": "completed",
+      "tasks": [],
+      "auto_approved": true,
+      "user_approval_time_seconds": 0
+    },
+    {
+      "phase_number": 3,
+      "phase_name": "Implementacion",
+      "started_at": "2026-02-21T20:50:10.868569+00:00",
+      "completed_at": null,
+      "elapsed_seconds": 0,
+      "status": "in_progress",
+      "tasks": [
+        {
+          "task_id": "T1",
+          "task_name": "Agregar ESTADOS_CLIMATIZADOR_VALIDOS en config.py",
+          "task_type": "config",
+          "estimated_minutes": 2,
+          "started_at": "2026-02-21T20:52:55.003627+00:00",
+          "completed_at": "2026-02-21T20:52:55.007694+00:00",
+          "elapsed_seconds": 0,
+          "actual_minutes": 0.0,
+          "variance_minutes": -2.0,
+          "file_created": null,
+          "status": "completed"
+        },
+        {
+          "task_id": "T2",
+          "task_name": "Actualizar setter estado_climatizador",
+          "task_type": "domain",
+          "estimated_minutes": 3,
+          "started_at": "2026-02-21T20:52:55.009362+00:00",
+          "completed_at": "2026-02-21T20:52:55.010863+00:00",
+          "elapsed_seconds": 0,
+          "actual_minutes": 0.0,
+          "variance_minutes": -3.0,
+          "file_created": null,
+          "status": "completed"
+        },
+        {
+          "task_id": "T3",
+          "task_name": "Actualizar docstring Swagger y manejo ValueError",
+          "task_type": "api",
+          "estimated_minutes": 2,
+          "started_at": "2026-02-21T20:52:55.012673+00:00",
+          "completed_at": "2026-02-21T20:52:55.014225+00:00",
+          "elapsed_seconds": 0,
+          "actual_minutes": 0.0,
+          "variance_minutes": -2.0,
+          "file_created": null,
+          "status": "completed"
+        },
+        {
+          "task_id": "T4",
+          "task_name": "Actualizar tests unitarios",
+          "task_type": "test",
+          "estimated_minutes": 5,
+          "started_at": "2026-02-21T20:52:55.015742+00:00",
+          "completed_at": "2026-02-21T20:52:55.017528+00:00",
+          "elapsed_seconds": 0,
+          "actual_minutes": 0.0,
+          "variance_minutes": -5.0,
+          "file_created": null,
+          "status": "completed"
+        },
+        {
+          "task_id": "T5",
+          "task_name": "Agregar test integracion API 400",
+          "task_type": "test",
+          "estimated_minutes": 3,
+          "started_at": "2026-02-21T20:52:55.019255+00:00",
+          "completed_at": "2026-02-21T20:52:55.022327+00:00",
+          "elapsed_seconds": 0,
+          "actual_minutes": 0.0,
+          "variance_minutes": -3.0,
+          "file_created": null,
+          "status": "completed"
+        }
+      ],
+      "auto_approved": true,
+      "user_approval_time_seconds": 0
+    },
+    {
+      "phase_number": 4,
+      "phase_name": "Tests Unitarios",
+      "started_at": "2026-02-21T20:52:55.026900+00:00",
+      "completed_at": "2026-02-21T20:52:55.030255+00:00",
+      "elapsed_seconds": 0,
+      "status": "completed",
+      "tasks": [],
+      "auto_approved": true,
+      "user_approval_time_seconds": 0
+    },
+    {
+      "phase_number": 5,
+      "phase_name": "Tests Integracion",
+      "started_at": "2026-02-21T20:52:55.033592+00:00",
+      "completed_at": "2026-02-21T20:52:55.036320+00:00",
+      "elapsed_seconds": 0,
+      "status": "completed",
+      "tasks": [],
+      "auto_approved": true,
+      "user_approval_time_seconds": 0
+    },
+    {
+      "phase_number": 6,
+      "phase_name": "Validacion BDD",
+      "started_at": "2026-02-21T20:52:55.038205+00:00",
+      "completed_at": "2026-02-21T20:52:55.040420+00:00",
+      "elapsed_seconds": 0,
+      "status": "completed",
+      "tasks": [],
+      "auto_approved": true,
+      "user_approval_time_seconds": 0
+    },
+    {
+      "phase_number": 7,
+      "phase_name": "Quality Gates",
+      "started_at": "2026-02-21T20:52:55.042817+00:00",
+      "completed_at": "2026-02-21T20:52:55.044798+00:00",
+      "elapsed_seconds": 0,
+      "status": "completed",
+      "tasks": [],
+      "auto_approved": true,
+      "user_approval_time_seconds": 0
+    },
+    {
+      "phase_number": 8,
+      "phase_name": "Documentacion",
+      "started_at": "2026-02-21T20:52:55.046775+00:00",
+      "completed_at": "2026-02-21T20:52:55.049938+00:00",
+      "elapsed_seconds": 0,
+      "status": "completed",
+      "tasks": [],
+      "auto_approved": true,
+      "user_approval_time_seconds": 0
+    },
+    {
+      "phase_number": 9,
+      "phase_name": "Reporte Final",
+      "started_at": "2026-02-21T20:52:55.052081+00:00",
+      "completed_at": "2026-02-21T20:52:55.054162+00:00",
+      "elapsed_seconds": 0,
+      "status": "completed",
+      "tasks": [],
+      "auto_approved": true,
+      "user_approval_time_seconds": 0
+    }
+  ],
+  "pauses": [],
+  "summary": {
+    "total_tasks": 5,
+    "completed_tasks": 5,
+    "total_phases": 11,
+    "estimated_total_minutes": 15,
+    "actual_total_minutes": 0.0,
+    "variance_minutes": -15.0,
+    "variance_percent": -100.0
+  }
+}

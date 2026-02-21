@@ -210,6 +210,16 @@ class TestEstadoClimatizador:
         )
         assert response.status_code == 400
 
+    def test_post_estado_climatizador_invalido(self, client):
+        """Verifica que POST con estado inválido retorna error 400."""
+        response = client.post(
+            '/termostato/estado_climatizador/',
+            json={'climatizador': 'modo_turbo'}
+        )
+        assert response.status_code == 400
+        data = response.get_json()
+        assert 'debe ser uno de' in data['error']['detalle']
+
 
 class TestIndicador:
     """Tests para el endpoint /termostato/indicador/ (TER-19: solo lectura)."""

@@ -65,8 +65,14 @@ swagger = Swagger(app_api, config=swagger_config, template=swagger_template)
 # Configuración inicial del termostato
 termostato = Configurador.termostato
 
-# Registro de inicio del servidor para calcular uptime
-_inicio_servidor = datetime.now()
+
+class AppState:
+    """Estado de la aplicación Flask."""
+    def __init__(self):
+        self.inicio_servidor = datetime.now()
+
+
+app_state = AppState()
 
 
 @app_api.errorhandler(404)
@@ -109,7 +115,7 @@ def comprueba():
               example: 2025-12-21T10:30:00
     """
     ahora = datetime.now()
-    uptime = (ahora - _inicio_servidor).total_seconds()
+    uptime = (ahora - app_state.inicio_servidor).total_seconds()
     logger.info("GET /comprueba/ -> 200")
     return jsonify({
         'status': 'ok',
@@ -378,8 +384,9 @@ def obtener_estado_climatizador():
           properties:
             climatizador:
               type: string
-              description: Estado (apagado, encendido, enfriando, calentando)
+              description: "Estado válido: apagado, encendido, enfriando, calentando"
               example: enfriando
+              enum: [apagado, encendido, enfriando, calentando]
     responses:
       200:
         description: Estado del climatizador (GET)
@@ -392,14 +399,18 @@ def obtener_estado_climatizador():
       201:
         description: Estado actualizado (POST)
       400:
-        description: Campo requerido faltante
+        description: Campo requerido faltante o estado inválido
     """
     if request.method == 'POST':
         datos = request.get_json()
         if not datos or "climatizador" not in datos:
             logger.warning("POST /termostato/estado_climatizador/ - Campo requerido faltante")
             return error_response(400, "Campo requerido faltante", "Se requiere campo 'climatizador'")
-        termostato.estado_climatizador = datos["climatizador"]
+        try:
+            termostato.estado_climatizador = datos["climatizador"]
+        except ValueError as e:
+            logger.warning("POST /termostato/estado_climatizador/ - %s", e)
+            return error_response(400, "Estado inválido", str(e))
         logger.info("POST /termostato/estado_climatizador/ -> 201")
         return jsonify({'mensaje': 'dato registrado'}), 201
     else:
