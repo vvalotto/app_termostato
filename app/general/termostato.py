@@ -5,6 +5,7 @@ Define la clase Termostato que representa el estado del dispositivo.
 from datetime import datetime
 
 from app.configuracion.config import Config
+from app.datos.registro import RegistroTemperatura
 
 
 class Termostato:
@@ -97,8 +98,23 @@ class Termostato:
 
     @estado_climatizador.setter
     def estado_climatizador(self, valor):
-        """Establece el estado del climatizador."""
-        self._estado_climatizador = str(valor)
+        """Establece el estado del climatizador.
+
+        Args:
+            valor: Estado del climatizador. Valores válidos:
+                   'apagado', 'encendido', 'enfriando', 'calentando'
+
+        Raises:
+            ValueError: Si el estado no es uno de los valores permitidos
+        """
+        valor = str(valor).lower().strip()
+        if valor not in Config.ESTADOS_CLIMATIZADOR_VALIDOS:
+            raise ValueError(
+                f"estado_climatizador debe ser uno de: "
+                f"{', '.join(sorted(Config.ESTADOS_CLIMATIZADOR_VALIDOS))}. "
+                f"Recibido: '{valor}'"
+            )
+        self._estado_climatizador = valor
         self._guardar_estado()
 
     @property
@@ -140,7 +156,6 @@ class Termostato:
     def _registrar_en_historial(self, temperatura):
         """Registra una temperatura en el historial si hay repositorio configurado."""
         if self._historial_repositorio:
-            from app.datos import RegistroTemperatura
             registro = RegistroTemperatura(
                 temperatura=temperatura,
                 timestamp=datetime.now()

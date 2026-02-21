@@ -34,8 +34,8 @@ mantenimiento/
 
 | HU | Título | SP | Estado | Jira |
 |----|--------|-------|--------|------|
-| [HU-004](./historias_usuario/HU-004_validar_estado_climatizador.md) | Validar estado_climatizador | 2 | 📋 Pendiente | - |
-| [HU-005](./historias_usuario/HU-005_refactor_imports_estructura.md) | Refactorizar imports y estructura | 1 | 📋 Pendiente | - |
+| [HU-004](./historias_usuario/HU-004_validar_estado_climatizador.md) | Validar estado_climatizador | 2 | ✅ Completado | - |
+| [HU-005](./historias_usuario/HU-005_refactor_imports_estructura.md) | Refactorizar imports y estructura | 1 | ✅ Completado | - |
 | [HU-006](./historias_usuario/HU-006_extraer_config_swagger.md) | Extraer configuración Swagger | 3 | 📋 Pendiente | - |
 
 #### 🟢 Prioridad BAJA (13 SP)
@@ -92,16 +92,16 @@ Prioridad: Alta
 
 ## 📈 Métricas de Progreso
 
-**Completadas:** 0/8 (0%)
+**Completadas:** 2/8 (25%)
 **En progreso:** 0/8 (0%)
-**Pendientes:** 8/8 (100%)
+**Pendientes:** 6/8 (75%)
 
 **Story Points:**
-- Completados: 0/50 (0%)
+- Completados: 3/45 (7%)
 - Alta prioridad: 0/21 (0%)
-- Media prioridad: 0/6 (0%)
+- Media prioridad: 3/6 (50%)
 - Baja prioridad: 0/13 (0%)
 
 ---
 
-**Última actualización:** 2026-02-06
+**Última actualización:** 2026-02-21

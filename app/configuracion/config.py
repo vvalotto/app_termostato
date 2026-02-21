@@ -33,3 +33,6 @@ class Config:
     # Umbrales para indicador de bateria (TER-19)
     INDICADOR_UMBRAL_NORMAL = float(os.getenv('INDICADOR_UMBRAL_NORMAL', 3.5))
     INDICADOR_UMBRAL_BAJO = float(os.getenv('INDICADOR_UMBRAL_BAJO', 2.5))
+
+    # Estados válidos del climatizador
+    ESTADOS_CLIMATIZADOR_VALIDOS = {"apagado", "encendido", "enfriando", "calentando"}
