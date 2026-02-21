@@ -207,7 +207,7 @@ tracker.end_tracking()
 
 ## 7. Flujo de Trabajo por HU (skill implement-us)
 
-Cada `/implement-us HU-XXX` ejecuta 10 fases:
+Cada `/implement-us HU-XXX` ejecuta 10 fases + commit de cierre:
 
 ```
 Fase 0: Validación de contexto     (automático)
@@ -220,6 +220,20 @@ Fase 6: Validación BDD             (automático, solo si Fase 1 fue ejecutada)
 Fase 7: Quality Gates              (automático — Pylint, CC, MI)
 Fase 8: Actualización documentación ← ⏸ APROBACIÓN USUARIO
 Fase 9: Reporte final              (automático)
+── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
+Commit ← ⏸ USUARIO VERIFICA Y CONFIRMA → commit por HU
+```
+
+**Formato de commit por HU:**
+```
+refactor(HU-XXX): <título de la HU>
+
+- <archivo>: <cambio principal>
+- <archivo>: <cambio principal>
+
+Tests: N/N | Pylint: X.XX | CC: A | MI: A
+
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
 ```
 
 ### Criterio BDD (Fase 1)
