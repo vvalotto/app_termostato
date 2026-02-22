@@ -32,3 +32,19 @@ class IndicadorCalculatorTresNiveles(IndicadorCalculator):
         if carga_bateria >= Config.INDICADOR_UMBRAL_BAJO:
             return "BAJO"
         return "CRITICO"
+
+
+class IndicadorCalculatorCincoNiveles(IndicadorCalculator):
+    """Calcula el indicador con cinco niveles: EXCELENTE, BUENO, NORMAL, BAJO, CRITICO."""
+
+    def calcular(self, carga_bateria: float) -> str:
+        """Retorna uno de 5 niveles según la carga de batería."""
+        if carga_bateria > 4.5:
+            return "EXCELENTE"
+        if carga_bateria > 3.5:
+            return "BUENO"
+        if carga_bateria > 2.5:
+            return "NORMAL"
+        if carga_bateria > 1.5:
+            return "BAJO"
+        return "CRITICO"

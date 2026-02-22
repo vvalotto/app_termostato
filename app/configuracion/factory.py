@@ -22,7 +22,8 @@ class TermostatoFactory:
     def crear_termostato(
         historial_repositorio=None,
         persistidor=None,
-        config=None
+        config=None,
+        indicador_calc=None
     ) -> Termostato:
         """Crea una nueva instancia de Termostato con sus dependencias.
 
@@ -30,6 +31,7 @@ class TermostatoFactory:
             historial_repositorio: Repositorio de historial (default: en memoria)
             persistidor: Persistidor de estado (default: JSON)
             config: Clase de configuración (default: Config)
+            indicador_calc: Estrategia de cálculo de indicador (default: TresNiveles)
 
         Returns:
             Nueva instancia de Termostato con estado cargado
@@ -43,7 +45,8 @@ class TermostatoFactory:
             persistidor=persist,
             temperatura_ambiente_inicial=cfg.TEMPERATURA_AMBIENTE_INICIAL,
             temperatura_deseada_inicial=cfg.TEMPERATURA_DESEADA_INICIAL,
-            carga_bateria_inicial=cfg.CARGA_BATERIA_INICIAL
+            carga_bateria_inicial=cfg.CARGA_BATERIA_INICIAL,
+            indicador_calc=indicador_calc
         )
         termostato.cargar_estado()
         return termostato

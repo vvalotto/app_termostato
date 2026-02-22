@@ -42,14 +42,15 @@ mantenimiento/
 
 | HU | Título | SP | Estado | Jira |
 |----|--------|-------|--------|------|
-| [HU-007](./historias_usuario/HU-007_strategy_indicador.md) | Strategy Pattern para indicador | 5 | 📋 Pendiente | - |
-| [HU-008](./historias_usuario/HU-008_di_container.md) | Crear DI Container | 8 | 📋 Pendiente | - |
+| [HU-007](./historias_usuario/HU-007_strategy_indicador.md) | Strategy Pattern para indicador | 5 | ✅ Completado | - |
+| [HU-008](./historias_usuario/HU-008_di_container.md) | Crear DI Container | 8 | ❌ Descartada | - |
 
 ## 📐 Decisiones Arquitectónicas (ADRs)
 
 | ID | Título | Estado | Fecha |
 |----|--------|--------|-------|
 | [ADR-001](./decisiones_arquitectura/ADR-001_factory_vs_singleton.md) | Factory Pattern vs Singleton | ✅ Aceptado | 2026-02-06 |
+| [ADR-002](./decisiones_arquitectura/ADR-002_di_container_descartado.md) | DI Container descartado — Application Factory es suficiente | ✅ Aceptado | 2026-02-22 |
 
 ## 📊 Roadmap de Refactorización
 
@@ -69,7 +70,7 @@ mantenimiento/
 ### Fase 5: Patrones Avanzados (2 días)
 - HU-006: Extraer config Swagger
 - HU-007: Strategy Pattern indicador
-- HU-008: DI Container
+- HU-008: DI Container ❌ Descartada (over-engineering — cubierta por HU-001 y HU-002)
 
 **Total estimado:** 9 días (~2 sprints)
 
@@ -92,15 +93,16 @@ Prioridad: Alta
 
 ## 📈 Métricas de Progreso
 
-**Completadas:** 6/8 (75%)
+**Completadas:** 7/8 (87.5%)
+**Descartadas:** 1/8 (12.5%) — HU-008 (over-engineering)
 **En progreso:** 0/8 (0%)
-**Pendientes:** 2/8 (25%)
+**Pendientes:** 0/8 (0%) ✅ ÉPICA CERRADA
 
-**Story Points:**
-- Completados: 32/50 (64%)
+**Story Points implementados:**
+- Completados: 37/42 efectivos (88%) — excluyendo HU-008 descartada
 - Alta prioridad: 21/21 (100%) ✅
 - Media prioridad: 6/6 (100%) ✅
-- Baja prioridad: 0/13 (0%)
+- Baja prioridad: 5/5 efectivos (100%) ✅
 
 ---
 

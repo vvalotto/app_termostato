@@ -7,6 +7,7 @@ from unittest.mock import Mock
 import pytest
 
 from app.general.termostato import Termostato
+from app.general.calculadores import IndicadorCalculatorCincoNiveles
 
 
 class TestTermostatoValoresDefault:
@@ -343,3 +344,30 @@ class TestHistorial:
         mock_repositorio.agregar.assert_called_once()
         registro = mock_repositorio.agregar.call_args[0][0]
         assert registro.temperatura == 25
+
+
+class TestIndicadorDI:
+    """Tests de inyección de estrategia de indicador en Termostato."""
+
+    def test_default_usa_tres_niveles(self):
+        termostato = Termostato()
+        termostato.carga_bateria = 4.0
+        assert termostato.indicador == "NORMAL"
+
+    def test_inyectar_cinco_niveles(self):
+        termostato = Termostato(indicador_calc=IndicadorCalculatorCincoNiveles())
+        termostato.carga_bateria = 4.8
+        assert termostato.indicador == "EXCELENTE"
+
+    def test_inyectar_cinco_niveles_retorna_bueno(self):
+        termostato = Termostato(indicador_calc=IndicadorCalculatorCincoNiveles())
+        termostato.carga_bateria = 4.0
+        assert termostato.indicador == "BUENO"
+
+    def test_estrategias_dan_resultados_diferentes(self):
+        t3 = Termostato()
+        t5 = Termostato(indicador_calc=IndicadorCalculatorCincoNiveles())
+        t3.carga_bateria = 4.0
+        t5.carga_bateria = 4.0
+        assert t3.indicador == "NORMAL"
+        assert t5.indicador == "BUENO"

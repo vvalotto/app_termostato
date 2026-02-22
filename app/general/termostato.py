@@ -25,7 +25,7 @@ class Termostato:
 
     def __init__(self, historial_repositorio=None, persistidor=None,
                  temperatura_ambiente_inicial=20, temperatura_deseada_inicial=24,
-                 carga_bateria_inicial=5.0):
+                 carga_bateria_inicial=5.0, indicador_calc=None):
         modelo = TermostatoModelo(
             temperatura_ambiente=temperatura_ambiente_inicial,
             temperatura_deseada=temperatura_deseada_inicial,
@@ -34,7 +34,7 @@ class Termostato:
         self._service = TermostatoService(
             modelo=modelo,
             validator=TermostatoValidator(),
-            indicador_calc=IndicadorCalculatorTresNiveles(),
+            indicador_calc=indicador_calc or IndicadorCalculatorTresNiveles(),
             persistidor=persistidor,
             historial_repositorio=historial_repositorio,
         )
