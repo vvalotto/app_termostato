@@ -42,7 +42,7 @@ mantenimiento/
 
 | HU | Título | SP | Estado | Jira |
 |----|--------|-------|--------|------|
-| [HU-007](./historias_usuario/HU-007_strategy_indicador.md) | Strategy Pattern para indicador | 5 | 📋 Pendiente | - |
+| [HU-007](./historias_usuario/HU-007_strategy_indicador.md) | Strategy Pattern para indicador | 5 | ✅ Completado | - |
 | [HU-008](./historias_usuario/HU-008_di_container.md) | Crear DI Container | 8 | 📋 Pendiente | - |
 
 ## 📐 Decisiones Arquitectónicas (ADRs)
@@ -92,15 +92,15 @@ Prioridad: Alta
 
 ## 📈 Métricas de Progreso
 
-**Completadas:** 6/8 (75%)
+**Completadas:** 7/8 (87.5%)
 **En progreso:** 0/8 (0%)
-**Pendientes:** 2/8 (25%)
+**Pendientes:** 1/8 (12.5%)
 
 **Story Points:**
-- Completados: 32/50 (64%)
+- Completados: 37/50 (74%)
 - Alta prioridad: 21/21 (100%) ✅
 - Media prioridad: 6/6 (100%) ✅
-- Baja prioridad: 0/13 (0%)
+- Baja prioridad: 5/13 (38%)
 
 ---
 
