@@ -8,7 +8,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from app.configuracion import Config
-from app.servicios.api import app_api
+from app.servicios.api import create_app
 
 if __name__ == "__main__":
-    app_api.run(host='0.0.0.0', port=Config.PORT, debug=Config.DEBUG)
+    app = create_app()
+    app.run(host='0.0.0.0', port=Config.PORT, debug=Config.DEBUG)

@@ -1,7 +1,16 @@
 """
 Configuración global de la aplicación.
-Provee una instancia compartida del termostato (patrón Singleton).
+
+@deprecated: Usar TermostatoFactory (app.configuracion.factory) en su lugar.
+Esta clase se mantiene temporalmente para compatibilidad con imports existentes
+y será eliminada en una versión futura (ver HU-002).
 """
+import warnings
+warnings.warn(
+    "Configurador está deprecado. Usar TermostatoFactory en su lugar.",
+    DeprecationWarning,
+    stacklevel=2
+)
 from app.general.termostato import Termostato
 from app.datos import (
     HistorialRepositorioMemoria,

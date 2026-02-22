@@ -27,7 +27,7 @@ mantenimiento/
 | HU | Título | SP | Estado | Jira |
 |----|--------|-------|--------|------|
 | [HU-001](./historias_usuario/HU-001_refactor_termostato.md) | Refactorizar clase Termostato (God Object) | 13 | 📋 Pendiente | - |
-| [HU-002](./historias_usuario/HU-002_eliminar_singleton.md) | Eliminar Singleton en Configurador | 8 | 📋 Pendiente | - |
+| [HU-002](./historias_usuario/HU-002_eliminar_singleton.md) | Eliminar Singleton en Configurador | 8 | ✅ Completado | - |
 | [HU-003](./historias_usuario/HU-003_eliminar_duplicacion_endpoints.md) | Eliminar duplicación en endpoints | 5 | ✅ Completado | - |
 
 #### 🟡 Prioridad MEDIA (6 SP)
@@ -92,13 +92,13 @@ Prioridad: Alta
 
 ## 📈 Métricas de Progreso
 
-**Completadas:** 3/8 (37%)
+**Completadas:** 4/8 (50%)
 **En progreso:** 0/8 (0%)
-**Pendientes:** 5/8 (63%)
+**Pendientes:** 4/8 (50%)
 
 **Story Points:**
-- Completados: 8/50 (16%)
-- Alta prioridad: 5/21 (24%)
+- Completados: 16/50 (32%)
+- Alta prioridad: 13/21 (62%)
 - Media prioridad: 3/6 (50%)
 - Baja prioridad: 0/13 (0%)
 
