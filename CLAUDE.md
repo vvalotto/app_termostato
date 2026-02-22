@@ -26,34 +26,46 @@ pip install -r requirements.txt
 ## Architecture
 
 ```
-run.py                      # Entry point - launches Flask server
-├── app/                    # Application package
-│   ├── __init__.py
+run.py                          # Entry point - launches Flask server
+├── app/
+│   ├── configuracion/
+│   │   ├── config.py           # Centralized config (env vars)
+│   │   ├── factory.py          # TermostatoFactory — creates instances
+│   │   └── swagger_config.py   # Flasgger config
+│   ├── general/
+│   │   ├── termostato.py       # Facade — stable public interface
+│   │   ├── termostato_modelo.py# @dataclass — pure data
+│   │   ├── validators.py       # TermostatoValidator — range validation
+│   │   └── calculadores.py     # Strategy Pattern — indicator calculation
 │   ├── servicios/
-│   │   ├── api.py          # REST endpoints (Flask routes)
-│   │   └── decorators.py   # Decorador @endpoint_termostato (elimina duplicación GET/POST)
-│   └── general/
-│       ├── termostato.py   # Termostato model (data class with properties)
-│       └── configurador.py # Singleton pattern - holds shared Termostato instance
-├── tests/                  # Test cases
-└── quality/                # Quality agent scripts and reports
+│   │   ├── api.py              # create_app() — Application Factory Pattern
+│   │   ├── decorators.py       # @endpoint_termostato — eliminates GET/POST duplication
+│   │   ├── errors.py           # error_response() — uniform error format
+│   │   └── termostato_service.py # TermostatoService — orchestration
+│   └── datos/                  # Repositories, persistidor, mappers
+├── tests/                      # Test suite (164 unit/integration + 64 system tests)
+└── quality/                    # Quality agent scripts and reports
 ```
 
 **Key patterns:**
-- `Configurador.termostato` provides a singleton Termostato instance shared across the API
-- All API endpoints in `app/servicios/api.py` use this shared instance
-- The Termostato class uses Python properties with setters for data validation (int/float conversion)
+- `create_app()` in `api.py` implements the Application Factory Pattern with dependency injection
+- `TermostatoFactory` creates independent Termostato instances (replaces old Singleton)
+- `Termostato` acts as a Facade delegating to Validator, Service, and Calculator
+- `@endpoint_termostato` decorator centralizes GET/POST logic across all endpoints
+- Strategy Pattern in `calculadores.py` allows swapping indicator algorithm without modifying Termostato
 
 ## API Endpoints
 
-All endpoints under `/termostato/` support GET (retrieve) and POST (update):
-- `/temperatura_ambiente/` - POST field: `ambiente`
-- `/temperatura_deseada/` - POST field: `deseada`
-- `/bateria/` - POST field: `bateria`
-- `/estado_climatizador/` - POST field: `climatizador`
-- `/indicador/` - POST field: `indicador`
-
 Health check: `GET /comprueba/`
+Full state: `GET /termostato/`
+History: `GET /termostato/historial/?limite=N`
+
+Individual endpoints — GET (retrieve) and POST (update) unless noted:
+- `/termostato/temperatura_ambiente/` - POST field: `ambiente` (int, 0-50)
+- `/termostato/temperatura_deseada/` - POST field: `deseada` (int, 15-30)
+- `/termostato/bateria/` - POST field: `bateria` (float, 0.0-5.0)
+- `/termostato/estado_climatizador/` - POST field: `climatizador` (apagado|encendido|enfriando|calentando)
+- `/termostato/indicador/` - GET only (calculated from battery level, not writable)
 
 ## Language
 
@@ -180,79 +192,37 @@ Este proyecto mantiene documentación estructurada en la carpeta `docs/` para an
 ```
 docs/
 ├── analisis/                    # Análisis y auditorías técnicas
-│   ├── 2026-02-06_analisis_diseno.md
-│   └── README.md
-├── mantenimiento/               # Gestión de deuda técnica
+├── arquitectura/                # Arquitectura del sistema (C4 + detalle de módulos)
+├── mantenimiento/               # Deuda técnica, HUs, ADRs, plans, reports
 │   ├── historias_usuario/       # HUs de refactoring (Jira-ready)
-│   │   ├── HU-001_refactor_termostato.md
-│   │   ├── HU-002_eliminar_singleton.md
-│   │   └── ... (8 HUs totales)
 │   ├── decisiones_arquitectura/ # ADRs
-│   │   └── ADR-001_factory_vs_singleton.md
-│   └── README.md
-└── desarrollo/                  # Guías para contributors
-    └── README.md
+│   ├── plans/                   # Planes de implementación por HU
+│   └── reports/                 # Reportes de HUs completadas
+├── quality/                     # Reportes y planes del agente de calidad
+├── testing/                     # Plan de testing de sistema
+└── tutoriales/                  # Tutoriales y guías de herramientas
 ```
 
-### Análisis de Diseño
+### Estado de Deuda Técnica
 
-**Último análisis:** 2026-02-06
-**Enfoque:** Principios SOLID, Cohesión, Acoplamiento, Code Smells
-**Calificación:** C+ (6.5/10)
-
-**Acceso rápido:**
-- [📄 Análisis completo](docs/analisis/2026-02-06_analisis_diseno.md)
-- [📊 Índice de análisis](docs/analisis/README.md)
-
-**Hallazgos principales:**
-- 🔴 God Object en clase Termostato (6 responsabilidades)
-- 🔴 Singleton anti-pattern en Configurador
-- 🔴 Duplicación masiva en endpoints (~200 LOC)
-
-### Deuda Técnica
-
-**Epic activa:** Refactorización Deuda Técnica - Diseño
-**Total:** 8 Historias de Usuario | ~50 Story Points
-
-**Distribución por prioridad:**
-- 🔴 **Alta:** 3 HUs (21 SP) - Refactorizar Termostato, Eliminar Singleton, Eliminar duplicación
-- 🟡 **Media:** 3 HUs (6 SP) - Validaciones, imports, Swagger config
-- 🟢 **Baja:** 2 HUs (13 SP) - Strategy Pattern, DI Container
+**Epic "Refactorización Deuda Técnica - Diseño" — CERRADA**
+- 7/8 HUs completadas | 37 SP implementados | HU-008 descartada (over-engineering)
+- Código post-refactoring: Pylint=8.89, CC=1.69, MI=90.15 — Quality Gates 3/3
 
 **Acceso rápido:**
-- [📋 Roadmap completo](docs/mantenimiento/README.md)
+- [📋 Roadmap y estado](docs/mantenimiento/README.md)
 - [📝 Historias de usuario](docs/mantenimiento/historias_usuario/)
-- [🏛️ Decisiones arquitectónicas (ADRs)](docs/mantenimiento/decisiones_arquitectura/)
-
-### Sincronización con Jira
-
-Las historias de usuario en `docs/mantenimiento/historias_usuario/` están en formato **Jira-ready**:
-
-1. Crear Epic en Jira: "Refactorización Deuda Técnica - Diseño"
-2. Migrar HUs de Markdown → Jira (copiar contenido)
-3. Actualizar campo `Jira: TBD` en archivos locales con el ID asignado
-4. Mantener estado sincronizado durante desarrollo
-
-**Formato de HU:** Cada archivo `.md` contiene:
-- Historia de usuario (Como... Quiero... Para...)
-- Criterios de aceptación
-- Tareas técnicas detalladas
-- Contexto y referencias al análisis
-- Escenarios de testing
-- Métricas antes/después
-- Riesgos y mitigaciones
-- Definición de Done
+- [🏛️ ADRs](docs/mantenimiento/decisiones_arquitectura/)
+- [📄 Análisis original](docs/analisis/2026-02-06_analisis_diseno.md)
 
 ### Workflows Recomendados
 
-**Al trabajar en refactorización:**
-1. Consultar [análisis de diseño](docs/analisis/2026-02-06_analisis_diseno.md) para contexto
-2. Revisar HU correspondiente en [historias_usuario/](docs/mantenimiento/historias_usuario/)
-3. Seguir criterios de aceptación y tareas técnicas
-4. Ejecutar `/quality-check` antes de commit
-5. Actualizar estado de HU al completar
+**Al implementar nueva funcionalidad:**
+1. Consultar Jira (`project = "app_termostato"`) para verificar HU y requisitos
+2. Crear branch: `feature/TER-XXX-descripcion` o `test/`, `docs/`, `bugfix/`
+3. Ejecutar `/quality-check` antes de hacer commit
+4. Abrir PR con `/pr`
 
 **Al tomar decisiones arquitectónicas:**
 1. Consultar [ADRs existentes](docs/mantenimiento/decisiones_arquitectura/)
-2. Si es decisión nueva, crear ADR-XXX.md siguiendo formato de ADR-001
-3. Referenciar ADR desde HU correspondiente
+2. Si es decisión nueva, crear `ADR-XXX.md` siguiendo formato de ADR-001
