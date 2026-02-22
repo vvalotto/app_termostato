@@ -11,6 +11,7 @@ from flasgger import Swagger
 
 from app.configuracion import Config
 from app.configuracion.factory import TermostatoFactory
+from app.configuracion.swagger_config import get_swagger_config, get_swagger_template
 from app.servicios.decorators import endpoint_termostato
 from app.servicios.errors import error_response
 
@@ -21,40 +22,6 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 logger = logging.getLogger(__name__)
-
-_swagger_config = {
-    "headers": [],
-    "specs": [
-        {
-            "endpoint": 'apispec',
-            "route": '/apispec.json',
-            "rule_filter": lambda rule: True,
-            "model_filter": lambda tag: True,
-        }
-    ],
-    "static_url_path": "/flasgger_static",
-    "swagger_ui": True,
-    "specs_route": "/docs/"
-}
-
-_swagger_template = {
-    "info": {
-        "title": "API Termostato",
-        "description": "API REST para control y monitoreo de termostato",
-        "version": Config.VERSION,
-        "contact": {
-            "name": "Soporte",
-            "email": "soporte@termostato.local"
-        }
-    },
-    "basePath": "/",
-    "schemes": ["http", "https"],
-    "tags": [
-        {"name": "Health", "description": "Endpoints de estado del sistema"},
-        {"name": "Termostato", "description": "Control del termostato"},
-        {"name": "Historial", "description": "Historial de temperaturas"}
-    ]
-}
 
 
 def create_app(termostato=None, historial_repositorio=None, historial_mapper=None):
@@ -70,7 +37,7 @@ def create_app(termostato=None, historial_repositorio=None, historial_mapper=Non
     """
     app = Flask(__name__)
     CORS(app)
-    Swagger(app, config=_swagger_config, template=_swagger_template)
+    Swagger(app, config=get_swagger_config(), template=get_swagger_template())
 
     _termostato = termostato or TermostatoFactory.crear_termostato()
     _historial_repo = historial_repositorio or TermostatoFactory.crear_historial_repositorio()

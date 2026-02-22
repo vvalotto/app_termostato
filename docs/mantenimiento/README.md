@@ -36,7 +36,7 @@ mantenimiento/
 |----|--------|-------|--------|------|
 | [HU-004](./historias_usuario/HU-004_validar_estado_climatizador.md) | Validar estado_climatizador | 2 | ✅ Completado | - |
 | [HU-005](./historias_usuario/HU-005_refactor_imports_estructura.md) | Refactorizar imports y estructura | 1 | ✅ Completado | - |
-| [HU-006](./historias_usuario/HU-006_extraer_config_swagger.md) | Extraer configuración Swagger | 3 | 📋 Pendiente | - |
+| [HU-006](./historias_usuario/HU-006_extraer_config_swagger.md) | Extraer configuración Swagger | 3 | ✅ Completado | - |
 
 #### 🟢 Prioridad BAJA (13 SP)
 
@@ -92,14 +92,14 @@ Prioridad: Alta
 
 ## 📈 Métricas de Progreso
 
-**Completadas:** 4/8 (50%)
+**Completadas:** 5/8 (62.5%)
 **En progreso:** 0/8 (0%)
-**Pendientes:** 4/8 (50%)
+**Pendientes:** 3/8 (37.5%)
 
 **Story Points:**
-- Completados: 16/50 (32%)
+- Completados: 19/50 (38%)
 - Alta prioridad: 13/21 (62%)
-- Media prioridad: 3/6 (50%)
+- Media prioridad: 6/6 (100%)
 - Baja prioridad: 0/13 (0%)
 
 ---
