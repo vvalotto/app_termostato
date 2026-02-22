@@ -1,0 +1,50 @@
+{
+  "metadata": {
+    "us_id": "HU-001",
+    "us_title": "Refactorizar clase Termostato (God Object)",
+    "us_points": 13,
+    "producto": "app_termostato",
+    "tracking_version": "1.0"
+  },
+  "timeline": {
+    "started_at": "2026-02-22T18:10:57.022115+00:00",
+    "completed_at": null,
+    "total_elapsed_seconds": 0,
+    "effective_seconds": 0,
+    "paused_seconds": 0
+  },
+  "phases": [
+    {
+      "phase_number": 0,
+      "phase_name": "Validaci\u00f3n de Contexto",
+      "started_at": "2026-02-22T18:10:57.022544+00:00",
+      "completed_at": "2026-02-22T18:10:57.022548+00:00",
+      "elapsed_seconds": 30,
+      "status": "completed",
+      "tasks": [],
+      "auto_approved": true,
+      "user_approval_time_seconds": 0
+    },
+    {
+      "phase_number": 2,
+      "phase_name": "Generaci\u00f3n del Plan de Implementaci\u00f3n",
+      "started_at": "2026-02-22T18:10:57.022552+00:00",
+      "completed_at": null,
+      "elapsed_seconds": 0,
+      "status": "in_progress",
+      "tasks": [],
+      "auto_approved": false,
+      "user_approval_time_seconds": 0
+    }
+  ],
+  "pauses": [],
+  "summary": {
+    "total_tasks": 0,
+    "completed_tasks": 0,
+    "total_phases": 1,
+    "estimated_total_minutes": 0,
+    "actual_total_minutes": 0,
+    "variance_minutes": 0,
+    "variance_percent": 0.0
+  }
+}
