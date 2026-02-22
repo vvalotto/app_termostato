@@ -1,0 +1,212 @@
+{
+  "metadata": {
+    "us_id": "HU-002",
+    "us_title": "Eliminar Singleton en Configurador",
+    "us_points": 8,
+    "producto": "app_termostato",
+    "tracking_version": "1.0"
+  },
+  "timeline": {
+    "started_at": "2026-02-22T14:36:13.831461+00:00",
+    "completed_at": "2026-02-22T14:43:03.688064+00:00",
+    "total_elapsed_seconds": 0,
+    "effective_seconds": 0,
+    "paused_seconds": 0
+  },
+  "phases": [
+    {
+      "phase_number": 0,
+      "phase_name": "Validación de Contexto",
+      "started_at": "2026-02-22T14:36:13.833145+00:00",
+      "completed_at": "2026-02-22T14:36:27.124318+00:00",
+      "elapsed_seconds": 13,
+      "status": "completed",
+      "tasks": [],
+      "auto_approved": true,
+      "user_approval_time_seconds": 0
+    },
+    {
+      "phase_number": 2,
+      "phase_name": "Generación del Plan de Implementación",
+      "started_at": "2026-02-22T14:36:37.388469+00:00",
+      "completed_at": "2026-02-22T14:38:00.535061+00:00",
+      "elapsed_seconds": 83,
+      "status": "completed",
+      "tasks": [],
+      "auto_approved": false,
+      "user_approval_time_seconds": 0
+    },
+    {
+      "phase_number": 3,
+      "phase_name": "Implementación",
+      "started_at": "2026-02-22T14:38:00.535061+00:00",
+      "completed_at": "2026-02-22T14:43:03.688064+00:00",
+      "elapsed_seconds": 303,
+      "status": "completed",
+      "tasks": [
+        {
+          "task_id": "T1",
+          "task_name": "Crear factory.py",
+          "task_type": "configuracion",
+          "estimated_minutes": 20,
+          "started_at": "2026-02-22T14:38:07.233644+00:00",
+          "completed_at": "2026-02-22T14:38:27.876700+00:00",
+          "elapsed_seconds": 20,
+          "actual_minutes": 0.33,
+          "variance_minutes": -19.67,
+          "file_created": "app/configuracion/factory.py",
+          "status": "completed"
+        },
+        {
+          "task_id": "T2",
+          "task_name": "Refactorizar api.py con create_app()",
+          "task_type": "servicio",
+          "estimated_minutes": 25,
+          "started_at": "2026-02-22T14:38:27.876700+00:00",
+          "completed_at": null,
+          "elapsed_seconds": 0,
+          "actual_minutes": 0,
+          "variance_minutes": 0,
+          "file_created": null,
+          "status": "in_progress"
+        },
+        {
+          "task_id": "T2",
+          "task_name": "Refactorizar api.py con create_app()",
+          "task_type": "implementacion",
+          "estimated_minutes": 25,
+          "started_at": "2026-02-22T14:42:22.227493+00:00",
+          "completed_at": "2026-02-22T14:42:22.227493+00:00",
+          "elapsed_seconds": 1,
+          "actual_minutes": 0.02,
+          "variance_minutes": -24.98,
+          "file_created": "app/servicios/api.py",
+          "status": "completed"
+        },
+        {
+          "task_id": "T3",
+          "task_name": "Actualizar run.py",
+          "task_type": "implementacion",
+          "estimated_minutes": 5,
+          "started_at": "2026-02-22T14:42:22.227493+00:00",
+          "completed_at": "2026-02-22T14:42:22.227493+00:00",
+          "elapsed_seconds": 1,
+          "actual_minutes": 0.02,
+          "variance_minutes": -4.98,
+          "file_created": "run.py",
+          "status": "completed"
+        },
+        {
+          "task_id": "T4",
+          "task_name": "Crear conftest.py",
+          "task_type": "implementacion",
+          "estimated_minutes": 15,
+          "started_at": "2026-02-22T14:42:22.227493+00:00",
+          "completed_at": "2026-02-22T14:42:22.227493+00:00",
+          "elapsed_seconds": 1,
+          "actual_minutes": 0.02,
+          "variance_minutes": -14.98,
+          "file_created": "tests/conftest.py",
+          "status": "completed"
+        },
+        {
+          "task_id": "T5",
+          "task_name": "Actualizar test_api.py",
+          "task_type": "implementacion",
+          "estimated_minutes": 15,
+          "started_at": "2026-02-22T14:42:22.227493+00:00",
+          "completed_at": "2026-02-22T14:42:22.227493+00:00",
+          "elapsed_seconds": 1,
+          "actual_minutes": 0.02,
+          "variance_minutes": -14.98,
+          "file_created": "tests/test_api.py",
+          "status": "completed"
+        },
+        {
+          "task_id": "T6",
+          "task_name": "Actualizar test_decorators.py",
+          "task_type": "implementacion",
+          "estimated_minutes": 10,
+          "started_at": "2026-02-22T14:42:22.227493+00:00",
+          "completed_at": "2026-02-22T14:42:22.227493+00:00",
+          "elapsed_seconds": 1,
+          "actual_minutes": 0.02,
+          "variance_minutes": -9.98,
+          "file_created": "tests/test_decorators.py",
+          "status": "completed"
+        },
+        {
+          "task_id": "T7",
+          "task_name": "Deprecar Configurador",
+          "task_type": "implementacion",
+          "estimated_minutes": 5,
+          "started_at": "2026-02-22T14:42:22.227493+00:00",
+          "completed_at": "2026-02-22T14:42:22.227493+00:00",
+          "elapsed_seconds": 1,
+          "actual_minutes": 0.02,
+          "variance_minutes": -4.98,
+          "file_created": "app/configuracion/configurador.py",
+          "status": "completed"
+        },
+        {
+          "task_id": "T8",
+          "task_name": "Crear test_factory.py",
+          "task_type": "implementacion",
+          "estimated_minutes": 15,
+          "started_at": "2026-02-22T14:42:22.227493+00:00",
+          "completed_at": "2026-02-22T14:42:22.227493+00:00",
+          "elapsed_seconds": 1,
+          "actual_minutes": 0.02,
+          "variance_minutes": -14.98,
+          "file_created": "tests/test_factory.py",
+          "status": "completed"
+        }
+      ],
+      "auto_approved": true,
+      "user_approval_time_seconds": 0
+    },
+    {
+      "phase_number": 7,
+      "phase_name": "Quality Gates",
+      "started_at": "2026-02-22T14:43:03.688064+00:00",
+      "completed_at": "2026-02-22T14:43:03.688064+00:00",
+      "elapsed_seconds": 60,
+      "status": "completed",
+      "tasks": [],
+      "auto_approved": true,
+      "user_approval_time_seconds": 0
+    },
+    {
+      "phase_number": 8,
+      "phase_name": "Documentación",
+      "started_at": "2026-02-22T14:43:03.688064+00:00",
+      "completed_at": "2026-02-22T14:43:03.688064+00:00",
+      "elapsed_seconds": 60,
+      "status": "completed",
+      "tasks": [],
+      "auto_approved": true,
+      "user_approval_time_seconds": 0
+    },
+    {
+      "phase_number": 9,
+      "phase_name": "Reporte Final",
+      "started_at": "2026-02-22T14:43:03.688064+00:00",
+      "completed_at": "2026-02-22T14:43:03.688064+00:00",
+      "elapsed_seconds": 60,
+      "status": "completed",
+      "tasks": [],
+      "auto_approved": true,
+      "user_approval_time_seconds": 0
+    }
+  ],
+  "pauses": [],
+  "summary": {
+    "total_tasks": 0,
+    "completed_tasks": 0,
+    "total_phases": 1,
+    "estimated_total_minutes": 0,
+    "actual_total_minutes": 0,
+    "variance_minutes": 0,
+    "variance_percent": 0.0
+  }
+}
