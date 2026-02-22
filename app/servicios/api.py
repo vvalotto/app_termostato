@@ -39,8 +39,8 @@ def create_app(termostato=None, historial_repositorio=None, historial_mapper=Non
     CORS(app)
     Swagger(app, config=get_swagger_config(), template=get_swagger_template())
 
-    _termostato = termostato or TermostatoFactory.crear_termostato()
     _historial_repo = historial_repositorio or TermostatoFactory.crear_historial_repositorio()
+    _termostato = termostato or TermostatoFactory.crear_termostato(historial_repositorio=_historial_repo)
     _historial_mapper = historial_mapper or TermostatoFactory.crear_historial_mapper()
 
     app_state = _AppState()
