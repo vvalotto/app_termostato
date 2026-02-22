@@ -3,17 +3,6 @@ Tests unitarios para el decorador endpoint_termostato.
 HU-003: Eliminar duplicación en endpoints API
 """
 import pytest
-from unittest.mock import MagicMock
-
-from app.servicios.api import app_api
-
-
-@pytest.fixture
-def client():
-    """Fixture que proporciona el cliente de pruebas de Flask."""
-    app_api.config['TESTING'] = True
-    with app_api.test_client() as client:
-        yield client
 
 
 class TestDecoradorGet:

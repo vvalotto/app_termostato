@@ -4,16 +4,6 @@ TER-13: Tests de integracion de API
 """
 import pytest
 
-from app.servicios.api import app_api
-
-
-@pytest.fixture
-def client():
-    """Fixture que proporciona el cliente de pruebas de Flask."""
-    app_api.config['TESTING'] = True
-    with app_api.test_client() as client:
-        yield client
-
 
 class TestHealthCheck:
     """Tests para el endpoint de health check."""
