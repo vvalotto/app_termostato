@@ -63,3 +63,6 @@ quality/reports/quality_report_*.md
 
 # Datos persistidos del termostato
 data/
+
+# Registro de proceso implement-us (análisis interno, no publicar)
+docs/implement-us-log/

@@ -11,6 +11,7 @@ from flasgger import Swagger
 
 from app.configuracion import Config
 from app.configuracion.configurador import Configurador
+from app.servicios.decorators import endpoint_termostato
 from app.servicios.errors import error_response
 
 # Configurar logging
@@ -208,6 +209,7 @@ def obtener_historial():
 
 
 @app_api.route("/termostato/temperatura_ambiente/", methods=["GET", "POST"])
+@endpoint_termostato(termostato, "temperatura_ambiente", "ambiente")
 def obtener_temperatura_ambiente():
     """Gestiona la temperatura ambiente.
     ---
@@ -256,24 +258,10 @@ def obtener_temperatura_ambiente():
                 detalle:
                   type: string
     """
-    if request.method == 'POST':
-        datos = request.get_json()
-        if not datos or "ambiente" not in datos:
-            logger.warning("POST /termostato/temperatura_ambiente/ - Campo requerido faltante")
-            return error_response(400, "Campo requerido faltante", "Se requiere campo 'ambiente'")
-        try:
-            termostato.temperatura_ambiente = datos["ambiente"]
-        except ValueError as e:
-            logger.warning("POST /termostato/temperatura_ambiente/ - %s", e)
-            return error_response(400, "Valor fuera de rango", str(e))
-        logger.info("POST /termostato/temperatura_ambiente/ -> 201")
-        return jsonify({'mensaje': 'dato registrado'}), 201
-    else:
-        logger.info("GET /termostato/temperatura_ambiente/ -> 200")
-        return jsonify({'temperatura_ambiente': termostato.temperatura_ambiente})
 
 
 @app_api.route("/termostato/temperatura_deseada/", methods=["GET", "POST"])
+@endpoint_termostato(termostato, "temperatura_deseada", "deseada")
 def obtener_temperatura_deseada():
     """Gestiona la temperatura deseada.
     ---
@@ -304,24 +292,10 @@ def obtener_temperatura_deseada():
       400:
         description: Error de validacion
     """
-    if request.method == 'POST':
-        datos = request.get_json()
-        if not datos or "deseada" not in datos:
-            logger.warning("POST /termostato/temperatura_deseada/ - Campo requerido faltante")
-            return error_response(400, "Campo requerido faltante", "Se requiere campo 'deseada'")
-        try:
-            termostato.temperatura_deseada = datos["deseada"]
-        except ValueError as e:
-            logger.warning("POST /termostato/temperatura_deseada/ - %s", e)
-            return error_response(400, "Valor fuera de rango", str(e))
-        logger.info("POST /termostato/temperatura_deseada/ -> 201")
-        return jsonify({'mensaje': 'dato registrado'}), 201
-    else:
-        logger.info("GET /termostato/temperatura_deseada/ -> 200")
-        return jsonify({'temperatura_deseada': termostato.temperatura_deseada})
 
 
 @app_api.route("/termostato/bateria/", methods=["GET", "POST"])
+@endpoint_termostato(termostato, "carga_bateria", "bateria")
 def obtener_carga_bateria():
     """Gestiona la carga de bateria.
     ---
@@ -352,24 +326,10 @@ def obtener_carga_bateria():
       400:
         description: Error de validacion
     """
-    if request.method == 'POST':
-        datos = request.get_json()
-        if not datos or "bateria" not in datos:
-            logger.warning("POST /termostato/bateria/ - Campo requerido faltante")
-            return error_response(400, "Campo requerido faltante", "Se requiere campo 'bateria'")
-        try:
-            termostato.carga_bateria = datos["bateria"]
-        except ValueError as e:
-            logger.warning("POST /termostato/bateria/ - %s", e)
-            return error_response(400, "Valor fuera de rango", str(e))
-        logger.info("POST /termostato/bateria/ -> 201")
-        return jsonify({'mensaje': 'dato registrado'}), 201
-    else:
-        logger.info("GET /termostato/bateria/ -> 200")
-        return jsonify({'carga_bateria': termostato.carga_bateria})
 
 
 @app_api.route("/termostato/estado_climatizador/", methods=["GET", "POST"])
+@endpoint_termostato(termostato, "estado_climatizador", "climatizador")
 def obtener_estado_climatizador():
     """Gestiona el estado del climatizador.
     ---
@@ -401,21 +361,6 @@ def obtener_estado_climatizador():
       400:
         description: Campo requerido faltante o estado inválido
     """
-    if request.method == 'POST':
-        datos = request.get_json()
-        if not datos or "climatizador" not in datos:
-            logger.warning("POST /termostato/estado_climatizador/ - Campo requerido faltante")
-            return error_response(400, "Campo requerido faltante", "Se requiere campo 'climatizador'")
-        try:
-            termostato.estado_climatizador = datos["climatizador"]
-        except ValueError as e:
-            logger.warning("POST /termostato/estado_climatizador/ - %s", e)
-            return error_response(400, "Estado inválido", str(e))
-        logger.info("POST /termostato/estado_climatizador/ -> 201")
-        return jsonify({'mensaje': 'dato registrado'}), 201
-    else:
-        logger.info("GET /termostato/estado_climatizador/ -> 200")
-        return jsonify({'estado_climatizador': termostato.estado_climatizador})
 
 
 @app_api.route("/termostato/indicador/", methods=["GET"])

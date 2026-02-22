@@ -30,7 +30,8 @@ run.py                      # Entry point - launches Flask server
 ├── app/                    # Application package
 │   ├── __init__.py
 │   ├── servicios/
-│   │   └── api.py          # REST endpoints (Flask routes)
+│   │   ├── api.py          # REST endpoints (Flask routes)
+│   │   └── decorators.py   # Decorador @endpoint_termostato (elimina duplicación GET/POST)
 │   └── general/
 │       ├── termostato.py   # Termostato model (data class with properties)
 │       └── configurador.py # Singleton pattern - holds shared Termostato instance
